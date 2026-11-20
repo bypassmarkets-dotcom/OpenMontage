@@ -123,7 +123,7 @@ ty = rule_y + 190
 text(FX0, ty, "STUDY OF THE INTERVAL", f_title, track=20)
 text(FX0, ty + 108, "what is seen is what falls between.", f_ital, fill=mix(PAPER, INK, 0.82))
 
-meta = ["PL. 24  —  FIG. i", "24 APERTURES  ×  40 ROWS", "SLIP  1/2 PITCH  AT  600 | 601"]
+meta = ["PL. 24  —  FIG. ii", "24 APERTURES  ×  40 ROWS", "SLIP  1/2 PITCH  AT  600 | 601"]
 my = ty + 20
 for i, s in enumerate(meta):
     text(FX1, my + i * 44, s, f_mono, fill=mix(PAPER, INK, 0.78), track=3, anchor="r")
