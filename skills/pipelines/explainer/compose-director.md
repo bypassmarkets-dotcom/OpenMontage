@@ -301,7 +301,42 @@ After rendering, the agent **must review its own output** before presenting to t
 The most common agent failure is doing 6a (frames) and 6c (visual) while skipping
 6b (audio transcription) — which misses catastrophic issues like missing audio entirely.**
 
-**6a. Probe rendered file (FIRST — gate for all other checks):**
+**6a. Verify the rendered file (FIRST — gate for all other checks):**
+
+Run `render_verifier` on the real output. It probes the container, decodes
+every frame, checks the spec against your edit decisions, detects black and
+frozen segments, checks audio for silence and clipping, samples review frames
+plus a contact sheet, and returns a schema-valid `render_report` and
+`final_review`:
+
+```python
+from tools.analysis.render_verifier import RenderVerifier
+result = RenderVerifier().execute({
+    "input_path": "projects/<id>/renders/final.mp4",
+    "output_dir": "projects/<id>/renders/review",
+    "expected": {
+        "duration_seconds": target_duration,   # from edit_decisions
+        "width": 1920, "height": 1080, "fps": 30,
+        "video_codec": "h264",
+        "require_audio": True,       # narrated/music video; False for an intentionally silent one
+        "continuous_audio": True,    # narration-led: silence gaps > 1s are major
+    },
+    "timestamps": scene_midpoints,     # >= 4; one per scene is ideal
+    "render_runtime_used": "remotion",
+    "render_runtime_locked": proposal_packet["production_plan"]["render_runtime"],
+})
+```
+
+- `status == "fail"` (`result.success` is False): critical problem (unreadable,
+  truncated, missing required audio). Do NOT present. Follow `recommended_action`.
+- `status == "revise"`: major issues (spec drift, black gap, mostly frozen,
+  clipping, runtime swap). Fix and re-render, or explain to the user.
+- `status == "pass"`: technical gate passed. Still complete 6b–6e; the
+  verifier cannot judge layout, text readability, or narration completeness.
+  Fill every field in `final_review.metadata.pending_agent_checks` before
+  checkpointing the `final_review`.
+
+If you cannot run the tool, probe manually as the fallback:
 ```bash
 ffprobe -v quiet -print_format json -show_format -show_streams rendered_video.mp4
 ```
@@ -390,6 +425,11 @@ result = Transcriber().execute({
 
 ### Step 7: Build Render Report
 
+`render_verifier` (Step 6a) already returns a schema-valid `render_report` built
+from the real file. Use it as the base and add your own context under
+`metadata`. `render_report.schema.json` rejects unknown keys in `outputs[]` and
+at the top level, so anything beyond the schema fields goes in `metadata`:
+
 ```json
 {
   "version": "1.0",
@@ -398,17 +438,18 @@ result = Transcriber().execute({
       "path": "renders/output.mp4",
       "format": "mp4",
       "codec": "h264",
+      "audio_codec": "aac",
       "resolution": "1920x1080",
       "fps": 30,
       "duration_seconds": 62.4,
-      "file_size_mb": 45.2,
-      "audio_codec": "aac",
-      "audio_channels": 2,
-      "render_strategy": "ffmpeg",
-      "render_time_seconds": 180
+      "file_size_bytes": 47395635
     }
   ],
-  "render_summary": {
+  "render_time_seconds": 180,
+  "final_review_ref": "renders/review/final_review.json",
+  "metadata": {
+    "render_strategy": "ffmpeg",
+    "audio_channels": 2,
     "total_cuts_rendered": 12,
     "subtitles_burned": true,
     "audio_tracks_mixed": 3,
