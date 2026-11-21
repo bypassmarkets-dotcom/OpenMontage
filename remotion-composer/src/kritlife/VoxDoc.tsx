@@ -21,6 +21,7 @@ export const D = {
 const SERIF = "'Noto Serif Thai', serif";
 const SANS = "'Noto Sans Thai', sans-serif";
 const cl = { extrapolateLeft: "clamp" as const, extrapolateRight: "clamp" as const };
+const beat = (sc: SceneDef, i: number, fallback: number) => (sc.at && sc.at[i] !== undefined ? Math.max(4, Math.round((sc.at[i] - sc.start) * FPS)) : fallback);
 const vox = (f: string) => staticFile(`kritlife/vox/${f}`);
 
 const useV = () => {
@@ -90,6 +91,10 @@ const Brand: React.FC = () => {
       KRITLIFE TECH
     </div>
   );
+};
+const BrandUntil: React.FC<{ t: number }> = ({ t }) => {
+  const f = useCurrentFrame();
+  return f / FPS < t ? <Brand /> : null;
 };
 const Chapter: React.FC<{ label?: string }> = ({ label }) => {
   const v = useV();
@@ -196,11 +201,10 @@ const Title: React.FC<{ s: SceneDef }> = ({ s }) => (
 
 const Items: React.FC<{ s: SceneDef }> = ({ s }) => {
   const v = useV();
-  const at = s.at ?? s.items!.map((_, i) => 24 + i * 24);
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: v ? 22 : 18, marginTop: 20, width: v ? "100%" : undefined }}>
       {s.items!.map((it, i) => (
-        <Rise key={i} delay={Math.round((at[i] - (s.start)) * FPS) > 0 && s.at ? Math.round((at[i] - s.start) * FPS) : at[i]} dy={20}>
+        <Rise key={i} delay={beat(s, i, 24 + i * 24)} dy={20}>
           <div style={{ display: "flex", alignItems: "center", gap: 22, background: D.panel, border: `1px solid ${D.line}`, borderLeft: `6px solid ${D.red}`, borderRadius: 10, padding: v ? "18px 28px 24px" : "14px 26px 20px" }}>
             <div style={{ fontFamily: SERIF, fontWeight: 800, fontSize: v ? 44 : 38, color: D.red, minWidth: 54 }}>{String(i + 1).padStart(2, "0")}</div>
             <div style={{ fontFamily: SANS, fontWeight: 600, fontSize: v ? 40 : 34, color: D.text, lineHeight: 1.4 }}>{it}</div>
@@ -268,7 +272,7 @@ const Redact: React.FC<{ s: SceneDef }> = ({ s }) => {
 const Split: React.FC<{ s: SceneDef }> = ({ s }) => {
   const v = useV();
   const box = (side: { label: string; text: string }, i: number) => (
-    <Rise key={i} delay={10 + i * 26} style={{ flex: 1 }}>
+    <Rise key={i} delay={beat(s, i, 10 + i * 26)} style={{ flex: 1 }}>
       <div style={{ height: "100%", background: i ? D.redSoft : D.panel, border: `2px solid ${i ? D.red : D.line}`, borderRadius: 16, padding: "34px 40px 40px", display: "flex", flexDirection: "column", gap: 18 }}>
         <div style={{ fontFamily: SANS, fontWeight: 700, fontSize: 28, letterSpacing: 2, color: i ? D.red : D.dim }}>{side.label}</div>
         <div style={{ fontFamily: SERIF, fontWeight: 800, fontSize: v ? 54 : 52, lineHeight: 1.35, color: D.text }}>{side.text}</div>
@@ -310,7 +314,8 @@ const Network: React.FC<{ s: SceneDef }> = ({ s }) => {
       )}
       <svg width={W} height={v ? 1920 : 1080} style={{ position: "absolute", left: 0, top: 0 }}>
         {pos.map(([x, y], i) => {
-          const p = interpolate(f, [14 + i * 10, 34 + i * 10], [0, 1], cl);
+          const d0 = beat(s, i, 14 + i * 10) - 8;
+          const p = interpolate(f, [d0, d0 + 16], [0, 1], cl);
           return <line key={i} x1={cx} y1={cy} x2={cx + (x - cx) * p} y2={cy + (y - cy) * p} stroke={D.red} strokeWidth={3} strokeDasharray="10 8" opacity={0.85} />;
         })}
       </svg>
@@ -318,9 +323,11 @@ const Network: React.FC<{ s: SceneDef }> = ({ s }) => {
         {s.hub ?? s.hi}
       </div>
       {pos.map(([x, y], i) => {
-        const sp = interpolate(f, [26 + i * 10, 40 + i * 10], [0, 1], cl);
+        const d0 = beat(s, i, 26 + i * 10);
+        const sp = interpolate(f, [d0, d0 + 12], [0, 1], cl);
+        const nw = nodes.length > 6 ? 250 : 300;
         return (
-          <div key={i} style={{ position: "absolute", left: x - 150, top: y - 50, width: 300, minHeight: 100, opacity: sp, transform: `scale(${0.8 + 0.2 * sp})`, background: D.panel, border: `2px solid ${D.line}`, borderRadius: 14, display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "10px 18px 16px", fontFamily: SANS, fontWeight: 700, fontSize: v ? 34 : 30, lineHeight: 1.35, color: D.text }}>
+          <div key={i} style={{ position: "absolute", left: x - nw / 2, top: y - 50, width: nw, minHeight: 100, opacity: sp, transform: `scale(${0.8 + 0.2 * sp})`, background: D.panel, border: `2px solid ${D.line}`, borderRadius: 14, display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "10px 18px 16px", fontFamily: SANS, fontWeight: 700, fontSize: v ? 34 : 30, lineHeight: 1.35, color: D.text }}>
             {nodes[i]}
           </div>
         );
@@ -352,6 +359,29 @@ const Big: React.FC<{ s: SceneDef }> = ({ s }) => {
   );
 };
 
+const End: React.FC<{ s: SceneDef }> = ({ s }) => {
+  const v = useV();
+  const f = useCurrentFrame();
+  const glow = interpolate(f, [0, 30], [0, 1], cl);
+  return (
+    <AbsoluteFill style={{ display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: v ? 60 : 44 }}>
+      <Rise delay={2}>
+        <div style={{ display: "flex", alignItems: "center", gap: 28 }}>
+          <div style={{ width: v ? 44 : 40, height: v ? 44 : 40, background: D.red, transform: "rotate(45deg)", boxShadow: `0 0 ${40 * glow}px ${D.red}` }} />
+          <div style={{ fontFamily: SANS, fontWeight: 800, fontSize: v ? 110 : 130, letterSpacing: 6, color: D.text }}>KRITLIFE <span style={{ color: D.red }}>TECH</span></div>
+        </div>
+      </Rise>
+      <div style={{ display: "flex", flexDirection: v ? "column" : "row", gap: v ? 26 : 50, alignItems: "center" }}>
+        {(s.items ?? []).map((t, i) => (
+          <Rise key={i} delay={beat(s, i, 30 + i * 30)} dy={20}>
+            <div style={{ fontFamily: SANS, fontWeight: 600, fontSize: v ? 50 : 40, letterSpacing: 3, color: i === 2 ? D.red : D.dim }}>{t}</div>
+          </Rise>
+        ))}
+      </div>
+    </AbsoluteFill>
+  );
+};
+
 const renderScene = (s: SceneDef, dur: number) => {
   switch (s.type) {
     case "photo":
@@ -364,6 +394,8 @@ const renderScene = (s: SceneDef, dur: number) => {
       return <Network s={s} />;
     case "big":
       return <Big s={s} />;
+    case "end":
+      return <End s={s} />;
     default:
       return <Title s={s} />;
   }
@@ -389,7 +421,7 @@ export const VoxDoc: React.FC = () => {
             </Sequence>
           );
         })}
-        <Brand />
+        {SCENES.length > 0 && <BrandUntil t={SCENES[SCENES.length - 1].start} />}
         <Subtitle />
         <Grain />
       </Design>
