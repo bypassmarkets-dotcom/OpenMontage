@@ -76,7 +76,8 @@ export const Board: React.FC<P> = ({ s, dur }) => {
       ? { right: -40, width: 620, bottom: 0, height: 960 }
       : { left: -40, width: 620, bottom: 0, height: 960 };
   return (
-    <AbsoluteFill>
+    // isolate: card/host z-indexes stay inside the scene, under the caption and brand
+    <AbsoluteFill style={{ isolation: "isolate" }}>
       <div style={{ position: "absolute", inset: 0, width: W, height: H, transform: `scale(${push})`, transformOrigin: "50% 40%" }}>
         <svg width={W} height={H} style={{ position: "absolute", inset: 0, zIndex: 2, overflow: "visible" }}>
           {(s.links ?? []).map(([a, b], k) => {
@@ -213,7 +214,8 @@ export const Collage: React.FC<P> = ({ s, dur }) => {
   const items = s.items ?? [];
   const clip = tornClip(hashStr(s.img ?? "c"), { amp: 1.1, steps: 34 });
   return (
-    <AbsoluteFill>
+    // isolate: card/host z-indexes stay inside the scene, under the caption and brand
+    <AbsoluteFill style={{ isolation: "isolate" }}>
       <DuotoneDefs />
       <div style={{ position: "absolute", inset: 0, width: G.W, height: G.H }}>
         {/* decor */}
