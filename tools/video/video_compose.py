@@ -834,6 +834,9 @@ class VideoCompose(BaseTool):
             t = sc.get("type")
             if t not in cls.VOX_SCENE_TYPES:
                 errors.append(f"vox.scenes[{i}].type {t!r} is not a Vox scene type ({sorted(cls.VOX_SCENE_TYPES)}).")
+            st = sc.get("theme")  # per-scene look (mix presets by chapter)
+            if st is not None and not (isinstance(st, dict) or (isinstance(st, str) and st in cls.VOX_THEME_PRESETS)):
+                errors.append(f"vox.scenes[{i}].theme {st!r} must be a preset ({sorted(cls.VOX_THEME_PRESETS)}) or a theme object.")
             try:
                 start = float(sc.get("start"))
             except (TypeError, ValueError):

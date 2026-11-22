@@ -2,7 +2,7 @@
 // pins + string, rubber stamps, polaroids, redaction bars, duotone photos, paper / newsprint grounds.
 // Everything is deterministic (seeded) so preview == render.
 import React, { useMemo } from "react";
-import { AbsoluteFill, Img, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
+import { AbsoluteFill, Easing, Img, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
 import { cl, useAsset, useT, type VoxTheme } from "./theme";
 
 // ---------- deterministic randomness ----------
@@ -256,4 +256,26 @@ export const usePinDrop = (delay: number) => {
   const { fps } = useVideoConfig();
   const s = spring({ frame: f - delay, fps, config: { damping: 13, stiffness: 120, mass: 0.8 } });
   return { s, style: { opacity: interpolate(f - delay, [0, 4], [0, 1], cl), transform: `translateY(${(1 - s) * -40}px) scale(${1.08 - 0.08 * s})` } as React.CSSProperties };
+};
+
+/**
+ * Chapter change between two looks: a torn sheet of the incoming ground sweeps up over the cut
+ * (covers the frame exactly at the bound, then leaves through the top). Pure overlay — scene timing
+ * and narration sync are untouched. Mount in a Sequence starting `half` frames before the bound.
+ */
+export const ChapterWipe: React.FC<{ color: string; accent: string; half?: number; seed?: number }> = ({ color, accent, half = 14, seed = 5 }) => {
+  const f = useCurrentFrame();
+  const { height } = useVideoConfig();
+  const ease = Easing.bezier(0.7, 0, 0.3, 1);
+  const H = height * 1.5; // sheet taller than the frame so torn edges stay off-screen at cover
+  const y = (lag: number) => interpolate(f - lag, [0, half * 2], [height, -H], { ...cl, easing: ease });
+  const sheet = (lag: number, c: string, s: number, extra: number) => (
+    <div style={{ position: "absolute", left: "-4%", width: "108%", top: y(lag) - extra, height: H + extra * 2, background: c, clipPath: tornClip(s, { amp: 1.6, steps: 22, edges: "tb" }) }} />
+  );
+  return (
+    <AbsoluteFill style={{ pointerEvents: "none", overflow: "hidden" }}>
+      {sheet(0, accent, seed + 1, 30)}
+      {sheet(3, color, seed, 0)}
+    </AbsoluteFill>
+  );
 };

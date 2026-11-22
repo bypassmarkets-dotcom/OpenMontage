@@ -45,6 +45,8 @@ A separate, data-driven composition (`src/vox/`), **not** an `Explainer` cut typ
 
 Props: `theme` (`"neutral" | "kritlife" | "midnight" | "dossier" | "collage"` or `{preset?, ...VoxTheme}`), `duration` (s), `scenes[]`, `cues[]` (`{s,e,t,hi?}`), `audio?`, `assetBase?`, `brand? {name, hi?}`, `labels? {illustration?, file?}`, `subtitles?`.
 
+**Mixing looks by chapter:** set `scene.theme` (preset name or theme object) per scene. Consecutive scenes with the same theme form a chapter; where the look changes, a torn-paper `ChapterWipe` (from `src/vox/paper.tsx`) sweeps over the cut. The wipe is an overlay of ±14 frames around the bound, so it never shifts timing. Brand, captions and grain follow the scene on screen. If no scene sets `theme`, the render is identical to before. Example: `projects/kritlife-vox-intro/build_v2.py` (dossier ↔ collage).
+
 Every scene has `start` (seconds on the narration master) and `type`. Optional on all scenes: `chapter`, `kicker`, `head` / `hi` (marker-highlighted) / `tail`, `size`, and `at[]` (absolute seconds for staggered reveals).
 
 | `type` | Uses | Notes |

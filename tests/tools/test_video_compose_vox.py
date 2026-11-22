@@ -112,3 +112,42 @@ def test_paper_presets_and_board_validation():
     vox["theme"] = "collage"
     props, errors = VideoCompose._build_vox_props(_ed(vox))
     assert errors == [] and props["theme"] == "collage"
+
+
+def test_per_scene_theme_mixes_looks_by_chapter():
+    vox = {
+        "theme": "collage",
+        "duration": 10,
+        "scenes": [
+            {"start": 0, "type": "big", "head": "A", "theme": "dossier"},
+            {"start": 4, "type": "big", "head": "B", "theme": {"preset": "collage", "accent": "#D9A21B"}},
+            {"start": 7, "type": "big", "head": "C", "theme": "sepia-noir"},
+        ],
+    }
+    props, errors = VideoCompose._build_vox_props(_ed(vox))
+    assert props is None
+    assert any("scenes[2].theme 'sepia-noir'" in e for e in errors)
+
+    vox["scenes"][2]["theme"] = "collage"
+    props, errors = VideoCompose._build_vox_props(_ed(vox))
+    assert errors == []
+    assert [s["theme"] for s in props["scenes"]][0] == "dossier"
+
+
+def test_kritlife_v2_storyboard_props_validate():
+    import json
+    import subprocess
+    import sys
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[2]
+    proj = root / "projects" / "kritlife-vox-intro"
+    if not (proj / "build_v2.py").exists():
+        import pytest
+
+        pytest.skip("kritlife v2 storyboard not present")
+    subprocess.run([sys.executable, str(proj / "build_v2.py")], check=True, capture_output=True)
+    vox = json.loads((proj / "vox-v2.props.json").read_text())
+    props, errors = VideoCompose._build_vox_props(_ed(vox))
+    assert errors == [], errors
+    assert {s.get("theme") for s in props["scenes"]} == {"dossier", "collage"}

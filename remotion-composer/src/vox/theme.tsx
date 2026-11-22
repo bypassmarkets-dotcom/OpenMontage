@@ -234,6 +234,7 @@ export type VoxScene = {
   host?: string; // board/collage: cut-out host figure (transparent PNG) standing in front
   hostSide?: "left" | "right"; // board 16:9: which side the host stands on (default left)
   hostTreatment?: "theme" | "natural"; // host follows the theme's photo treatment (default) or stays in colour
+  theme?: VoxThemeInput; // per-scene look (mix presets by chapter); default = the video theme
 };
 
 /** A pinned item on the evidence board. x/y/w are in 1920x1080 design px (top-left of the card). */
