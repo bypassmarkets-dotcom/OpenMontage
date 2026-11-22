@@ -177,17 +177,24 @@ export const Case: React.FC<P> = ({ s, dur }) => {
   // evidence placed on an ellipse around the note (seeded jitter), first card upper-right, clockwise
   const placed = useMemo(() => {
     const r = rng(seed);
-    const n = Math.max(cards.length, 1);
     const rx = v ? 560 : 900;
     const ry = v ? 780 : 560;
-    return cards.map((c, i) => {
-      const a = -Math.PI / 3 + (i / n) * Math.PI * 2 + (r() - 0.5) * 0.25;
+    const ev = Math.max(1, cards.filter((c) => c.kind !== "stamp").length);
+    let k = 0;
+    return cards.map((c) => {
       const b = boxOf(c);
+      if (c.kind === "stamp") {
+        // stamps slam onto the headline note (lower part), where the camera is looking
+        const cx = ncx + note.w * 0.12;
+        const cy = ny + note.h * 0.84;
+        return { c, b, x: cx - b.w / 2, y: cy - b.h / 2, cx, cy, rot: c.rot ?? -8 };
+      }
+      const a = -Math.PI / 3 + (k++ / ev) * Math.PI * 2 + (r() - 0.5) * 0.25;
       const cx = ncx + Math.cos(a) * rx;
       const cy = ncy + Math.sin(a) * ry;
       return { c, b, x: cx - b.w / 2, y: cy - b.h / 2, cx, cy, rot: c.rot ?? (r() - 0.5) * 8 };
     });
-  }, [cards, v, ncx, ncy, seed]);
+  }, [cards, v, ncx, ncy, ny, note.w, note.h, seed]);
 
   const delays = cards.map((_, i) => beat(s, i, 40 + i * 30));
   const popEnd = 26;
@@ -201,13 +208,15 @@ export const Case: React.FC<P> = ({ s, dur }) => {
   const keys: Cam[] = [{ ...at(ncx, ncy, zNote * 1.05), f: 0 }, { ...at(ncx, ncy, zNote), f: popEnd }];
   placed.forEach((p, i) => {
     const land = Math.max(delays[i], popEnd + 14 + i * 2);
-    keys.push({ ...at(p.cx, p.cy, zCard), f: land });
+    // a stamp lands on the note: frame the note, not the stamp
+    keys.push(p.c.kind === "stamp" ? { ...at(ncx, ncy + note.h * 0.08, zNote * 0.97), f: land } : { ...at(p.cx, p.cy, zCard), f: land });
   });
   const lastLand = keys[keys.length - 1].f;
   const wideAt = Math.min(dur - 4, Math.max(lastLand + 36, popEnd + 40));
   // summary: fit the note + all evidence into the zone
   const xs = [nx, nx + note.w, ...placed.flatMap((p) => [p.x, p.x + p.b.w])];
   const ys = [ny, ny + note.h, ...placed.flatMap((p) => [p.y, p.y + p.b.h])];
+  // (stamps sit on the note, so they never widen the summary box)
   const bx = [Math.min(...xs) - 60, Math.max(...xs) + 60];
   const by = [Math.min(...ys) - 60, Math.max(...ys) + 60];
   const zWide = Math.min(zone.w / (bx[1] - bx[0]), zone.h / (by[1] - by[0]));
