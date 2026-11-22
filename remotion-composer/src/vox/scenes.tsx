@@ -2,6 +2,7 @@
 import React from "react";
 import { AbsoluteFill, Img, interpolate, useCurrentFrame } from "remotion";
 import { Col, CreditTag, Head, Hi, IllusTag, Kicker, Rise } from "./chrome";
+import { DuotoneDefs, photoFilter } from "./paper";
 import { cl, useAsset, useBeat, useSp, useT, useV, useVox, type VoxScene } from "./theme";
 
 type P = { s: VoxScene };
@@ -52,8 +53,9 @@ export const Photo: React.FC<P & { dur: number }> = ({ s, dur }) => {
   return (
     <AbsoluteFill>
       <AbsoluteFill style={{ overflow: "hidden" }}>
-        {s.img && <Img src={asset(s.img)} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: `${ox}% ${oy}%`, transform: `scale(${scale})`, transformOrigin: `${ox}% ${oy}%`, filter: "saturate(0.85) contrast(1.05)" }} />}
+        {s.img && <Img src={asset(s.img)} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: `${ox}% ${oy}%`, transform: `scale(${scale})`, transformOrigin: `${ox}% ${oy}%`, filter: photoFilter(T) }} />}
       </AbsoluteFill>
+      {T.photo === "duotone" && <DuotoneDefs />}
       <AbsoluteFill style={{ background: v ? `linear-gradient(180deg, rgba(${sh},0.85) 0%, rgba(${sh},0.25) 40%, rgba(${sh},0.35) 65%, rgba(${sh},0.9) 100%)` : `linear-gradient(90deg, rgba(${sh},0.92) 0%, rgba(${sh},0.55) 45%, rgba(${sh},0.15) 100%)` }} />
       <IllusTag />
       {(s.head || s.kicker) && (
@@ -182,7 +184,7 @@ export const Big: React.FC<P> = ({ s }) => {
       <div style={{ display: "flex", flexDirection: "column", gap: 28, alignItems: "center", textAlign: "center" }}>
         {s.kicker && <Kicker text={s.kicker} />}
         <Rise delay={6}>
-          <div style={{ fontFamily: T.serif, fontWeight: 800, fontSize: v ? (s.size ?? 120) * 0.9 : s.size ?? 120, lineHeight: 1.3, color: T.text }}>
+          <div style={{ fontFamily: T.display ?? T.serif, fontWeight: T.display ? 400 : 800, fontSize: v ? (s.size ?? 120) * 0.9 : s.size ?? 120, lineHeight: T.display ? 1.08 : 1.3, color: T.text, textTransform: T.uppercase ? "uppercase" : undefined }}>
             {s.head}
             {s.hi && <Hi delay={20}>{s.hi}</Hi>}
             {s.tail}

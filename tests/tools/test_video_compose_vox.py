@@ -88,3 +88,27 @@ def test_execute_routes_vox_and_surfaces_validation_errors(tmp_path):
     })
     assert not res.success
     assert "Invalid Vox edit_decisions" in (res.error or "")
+
+
+def test_paper_presets_and_board_validation():
+    vox = {
+        "theme": "dossier",
+        "duration": 10,
+        "scenes": [
+            {"start": 0, "type": "board", "head": "WHO", "hi": "TRAINED",
+             "cards": [{"kind": "photo", "x": 0, "y": 0}, {"kind": "note", "x": 10, "y": 10, "items": ["A"]}],
+             "links": [[0, -1], [0, 5]]},
+            {"start": 5, "type": "collage", "head": "AI", "hi": "WEAPON?", "img": "x.jpg"},
+        ],
+    }
+    props, errors = VideoCompose._build_vox_props(_ed(vox))
+    text = "\n".join(errors)
+    assert "cards[0] (photo) needs an img" in text
+    assert "[0, 5] points outside cards" in text
+    assert props is None
+
+    vox["scenes"][0]["cards"][0]["img"] = "a.jpg"
+    vox["scenes"][0]["links"] = [[0, -1], [1, 0]]
+    vox["theme"] = "collage"
+    props, errors = VideoCompose._build_vox_props(_ed(vox))
+    assert errors == [] and props["theme"] == "collage"

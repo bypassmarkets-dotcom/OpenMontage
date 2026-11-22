@@ -2,6 +2,7 @@
 import React from "react";
 import { AbsoluteFill, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 import { cl, useSp, useT, useV, useVox, type VoxCue } from "./theme";
+import { NewsprintGround, PaperGround, TornStrip } from "./paper";
 
 // design space: 1920x1080 (16:9) or 1080x1920 (9:16); this scales to the real canvas
 export const Design: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -43,6 +44,8 @@ export const Grain: React.FC = () => {
 export const GridBg: React.FC = () => {
   const T = useT();
   const f = useCurrentFrame();
+  if (T.texture === "newsprint") return <NewsprintGround />;
+  if (T.texture === "paper") return <PaperGround />;
   return (
     <AbsoluteFill style={{ background: T.bg }}>
       <AbsoluteFill
@@ -152,6 +155,7 @@ export const Kicker: React.FC<{ text: string; delay?: number }> = ({ text, delay
 export const Hi: React.FC<{ children: React.ReactNode; delay?: number }> = ({ children, delay = 0 }) => {
   const T = useT();
   const s = useSp(delay, { damping: 22, stiffness: 90, mass: 1 });
+  if (T.highlight === "torn") return <TornStrip delay={delay}>{children}</TornStrip>;
   return (
     <span style={{ position: "relative", color: T.text, whiteSpace: "nowrap" }}>
       <span style={{ position: "absolute", left: -6, right: -6, bottom: "8%", height: "34%", background: T.accent, opacity: 0.85, transformOrigin: "left", transform: `scaleX(${s})`, zIndex: 0 }} />
@@ -165,7 +169,7 @@ export const Head: React.FC<{ a?: string; hi?: string; b?: string; size?: number
   const v = useV();
   return (
     <Rise delay={delay}>
-      <div style={{ fontFamily: T.serif, fontWeight: 800, fontSize: v ? size * 0.95 : size, lineHeight: 1.32, color: T.text, textAlign: v ? "center" : "left", textWrap: "balance" as any }}>
+      <div style={{ fontFamily: T.display ?? T.serif, fontWeight: T.display ? 400 : 800, fontSize: v ? size * 0.95 : size, lineHeight: T.display ? 1.08 : 1.32, color: T.text, textAlign: v ? "center" : "left", textWrap: "balance" as any, textTransform: T.uppercase ? "uppercase" : undefined }}>
         {a}
         {hi && <Hi delay={delay + 14}>{hi}</Hi>}
         {b}

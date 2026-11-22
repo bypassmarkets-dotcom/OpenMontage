@@ -2,6 +2,7 @@
 // Everything visual is read from a VoxTheme via context, so one kit serves any brand.
 import React, { createContext, useContext } from "react";
 import { spring, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
+import { paperFonts } from "./fonts";
 
 export type VoxTheme = {
   bg: string; // canvas
@@ -23,6 +24,19 @@ export type VoxTheme = {
   grainBlend: "screen" | "multiply" | "overlay" | "normal";
   vignette: number; // 0..1 strength of the edge darkening
   gridOpacity: number;
+  // ---- paper look (dossier / collage presets). All optional: unset = clean editorial look ----
+  paperFonts?: boolean; // load Anton/Kanit display + Permanent Marker/Mali hand fonts (Google Fonts)
+  display?: string; // condensed display face for headlines (overrides serif in Head/Big)
+  hand?: string; // handwritten face (sub lines, notes, underlines)
+  typeFace?: string; // typewriter face for note titles / stamps
+  highlight?: "marker" | "torn"; // how `hi` is highlighted
+  texture?: "grid" | "newsprint" | "paper"; // scene background
+  backdrop?: string; // image (under assetBase) used by the newsprint texture
+  photo?: "natural" | "bw" | "duotone"; // treatment for photo scenes and board/collage images
+  duo?: [string, string]; // duotone [shadow, highlight]
+  note?: string; // torn-paper note colour
+  noteInk?: string; // text on notes
+  uppercase?: boolean; // display headlines in caps
 };
 
 export const VOX_KRITLIFE: VoxTheme = {
@@ -84,20 +98,89 @@ export const VOX_MIDNIGHT: VoxTheme = {
   shade: "8,12,20",
 };
 
+// Evidence board: dark newsprint, torn cream notes, red pins + string, B&W photos, stamps.
+export const VOX_DOSSIER: VoxTheme = {
+  bg: "#16130F",
+  bg2: "#211C16",
+  panel: "#241E17",
+  line: "#3A3229",
+  text: "#F1E9D8",
+  dim: "#A89A84",
+  accent: "#B3201E",
+  accentSoft: "rgba(179,32,30,0.22)",
+  accentInk: "#D8332F",
+  onAccent: "#F6EEDD",
+  paper: "#E6DCC6",
+  shade: "18,15,11",
+  tagBg: "rgba(22,19,15,0.7)",
+  serif: "'Noto Serif Thai', serif",
+  sans: "'Noto Sans Thai', sans-serif",
+  grainOpacity: 0.1,
+  grainBlend: "overlay",
+  vignette: 0.7,
+  gridOpacity: 0,
+  paperFonts: true,
+  highlight: "torn",
+  texture: "newsprint",
+  photo: "bw",
+  note: "#E6DCC6",
+  noteInk: "#1B1712",
+  uppercase: true,
+};
+
+// Editorial collage poster: cream paper, black condensed type, gold torn strips, duotone cut-outs.
+export const VOX_COLLAGE: VoxTheme = {
+  bg: "#EDE3CF",
+  bg2: "#E2D5BC",
+  panel: "#F5EEDF",
+  line: "#CDBFA3",
+  text: "#14120F",
+  dim: "#5E5444",
+  accent: "#D9A21B",
+  accentSoft: "rgba(217,162,27,0.22)",
+  accentInk: "#8A6200",
+  onAccent: "#14120F",
+  paper: "#F5EEDF",
+  shade: "237,227,207",
+  tagBg: "rgba(245,238,223,0.85)",
+  serif: "'Noto Serif Thai', serif",
+  sans: "'Noto Sans Thai', sans-serif",
+  grainOpacity: 0.06,
+  grainBlend: "multiply",
+  vignette: 0.06,
+  gridOpacity: 0,
+  paperFonts: true,
+  highlight: "torn",
+  texture: "paper",
+  photo: "duotone",
+  duo: ["#1A1712", "#D9A21B"],
+  note: "#F5EEDF",
+  noteInk: "#14120F",
+  uppercase: true,
+};
+
 export const VOX_THEMES: Record<string, VoxTheme> = {
   neutral: VOX_NEUTRAL,
   kritlife: VOX_KRITLIFE,
   midnight: VOX_MIDNIGHT,
+  dossier: VOX_DOSSIER,
+  collage: VOX_COLLAGE,
 };
 
 /** A preset name, a full theme, or `{ preset, ...overrides }`. */
 export type VoxThemeInput = string | (Partial<VoxTheme> & { preset?: string });
 
+const withFonts = (t: VoxTheme): VoxTheme => {
+  if (!t.paperFonts) return t;
+  const f = paperFonts();
+  return { ...t, display: t.display ?? f.display, hand: t.hand ?? f.hand, typeFace: t.typeFace ?? f.type };
+};
+
 export const resolveTheme = (t?: VoxThemeInput): VoxTheme => {
   if (!t) return VOX_NEUTRAL;
-  if (typeof t === "string") return VOX_THEMES[t] ?? VOX_NEUTRAL;
+  if (typeof t === "string") return withFonts(VOX_THEMES[t] ?? VOX_NEUTRAL);
   const { preset, ...rest } = t;
-  return { ...(VOX_THEMES[preset ?? "neutral"] ?? VOX_NEUTRAL), ...rest };
+  return withFonts({ ...(VOX_THEMES[preset ?? "neutral"] ?? VOX_NEUTRAL), ...rest });
 };
 
 // ---------- data model ----------
@@ -114,7 +197,10 @@ export type VoxSceneType =
   | "chart-pie"
   | "list"
   | "parallax"
-  | "typewriter";
+  | "typewriter"
+  // paper presets
+  | "board"
+  | "collage";
 
 export type VoxDatum = { label: string; value: number };
 
@@ -141,6 +227,25 @@ export type VoxScene = {
   unit?: string; // chart value suffix, e.g. "%"
   text?: string; // typewriter body
   direction?: "left" | "right" | "up" | "down"; // parallax pan direction
+  cards?: VoxCard[]; // board: evidence pinned around the headline note
+  links?: [number, number][]; // board: red strings between cards (-1 = the headline note)
+  stamp?: string; // board/collage: rubber-stamp label
+};
+
+/** A pinned item on the evidence board. x/y/w are in 1920x1080 design px (top-left of the card). */
+export type VoxCard = {
+  kind: "photo" | "note" | "stamp";
+  x: number;
+  y: number;
+  w?: number;
+  h?: number; // photo image height (px); default 3:4 of w
+  rot?: number; // degrees
+  img?: string;
+  caption?: string; // photo: handwritten caption under the polaroid
+  redact?: [number, number, number, number]; // photo: black bar [x%, y%, w%, h%] over eyes/names
+  title?: string; // note: header (typewriter) / stamp: text
+  items?: string[]; // note: checklist
+  credit?: string;
 };
 
 export type VoxCue = { s: number; e: number; t: string; hi?: string };

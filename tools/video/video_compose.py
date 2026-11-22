@@ -782,8 +782,9 @@ class VideoCompose(BaseTool):
     VOX_SCENE_TYPES = frozenset({
         "title", "photo", "redact", "split", "network", "big", "end",
         "chart-line", "chart-pie", "list", "parallax", "typewriter",
+        "board", "collage",
     })
-    VOX_THEME_PRESETS = frozenset({"neutral", "kritlife", "midnight"})
+    VOX_THEME_PRESETS = frozenset({"neutral", "kritlife", "midnight", "dossier", "collage"})
 
     @classmethod
     def _vox_composition_id(cls, profile_name: str | None, vox: dict[str, Any] | None = None) -> str:
@@ -843,6 +844,14 @@ class VideoCompose(BaseTool):
             if duration and start >= duration:
                 errors.append(f"vox.scenes[{i}].start {start} is at/after vox.duration {duration}.")
             prev = start
+            if t == "board":
+                for k, card in enumerate(sc.get("cards") or []):
+                    if card.get("kind") == "photo" and not card.get("img"):
+                        errors.append(f"vox.scenes[{i}].cards[{k}] (photo) needs an img.")
+                n_cards = len(sc.get("cards") or [])
+                for a, b in sc.get("links") or []:
+                    if not (-1 <= a < n_cards and -1 <= b < n_cards):
+                        errors.append(f"vox.scenes[{i}].links [{a}, {b}] points outside cards (use -1 for the headline note).")
             if t in ("photo", "parallax") and not sc.get("img"):
                 errors.append(f"vox.scenes[{i}] ({t}) needs an img.")
             if t in ("chart-line", "chart-pie") and not sc.get("data"):
@@ -1151,7 +1160,9 @@ class VideoCompose(BaseTool):
         )
         uncredited = [
             i for i, sc in enumerate(props["scenes"])
-            if sc.get("type") in ("photo", "parallax", "redact") and sc.get("img") and not sc.get("credit")
+            if (sc.get("type") in ("photo", "parallax", "redact", "collage") and sc.get("img")
+                or sc.get("type") == "board" and any(c.get("img") for c in sc.get("cards") or []))
+            and not sc.get("credit")
         ]
         if uncredited:
             final_review.setdefault("issues_found", []).append(

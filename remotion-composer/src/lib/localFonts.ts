@@ -27,15 +27,15 @@ const LATIN =
 
 const loaded = new Set<string>();
 
-const register = (family: string, url: string, style: "normal" | "italic", weights: string[]) => {
+const register = (family: string, url: string, style: "normal" | "italic", weights: string[], unicodeRange: string = LATIN) => {
   if (typeof FontFace === "undefined") return family;
   for (const weight of weights) {
-    const key = `${family}-${style}-${weight}`;
+    const key = `${family}-${style}-${weight}-${url}`;
     if (loaded.has(key)) continue;
     loaded.add(key);
     queueMicrotask(() => {
       const handle = delayRender(`Loading bundled font ${key}`);
-      const face = new FontFace(family, `url(${url}) format('woff2')`, { weight, style, unicodeRange: LATIN });
+      const face = new FontFace(family, `url(${url}) format('woff2')`, { weight, style, unicodeRange });
       face
         .load()
         .then(() => {
@@ -53,3 +53,7 @@ export const loadSpaceGrotesk = (weights: string[]) => ({ fontFamily: register("
 export const loadPlayfair = (style: "normal" | "italic", weights: string[]) => ({
   fontFamily: register("Playfair Display", style === "italic" ? playfairItalicUrl : playfairUrl, style, weights),
 });
+
+/** Register any bundled woff2 face (one file per weight/subset). Used by the Vox paper presets. */
+export const registerBundledFont = register;
+export const LATIN_RANGE = LATIN;

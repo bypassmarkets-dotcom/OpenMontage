@@ -5,6 +5,7 @@ import { AbsoluteFill, Audio, Sequence, useVideoConfig, type CalculateMetadataFu
 import { BrandUntil, Chapter, Design, Grain, GridBg, SceneWrap, Subtitle } from "./chrome";
 import { Big, End, Network, Photo, Redact, Split, Title } from "./scenes";
 import { ChartLine, ChartPie, List, Parallax, Typewriter } from "./scenesRve";
+import { Board, Collage } from "./scenesPaper";
 import { resolveTheme, useAsset, VoxProvider, type VoxProps, type VoxScene } from "./theme";
 
 export const VOX_FPS = 30;
@@ -35,6 +36,10 @@ const renderScene = (s: VoxScene, dur: number) => {
       return <Parallax s={s} dur={dur} />;
     case "typewriter":
       return <Typewriter s={s} dur={dur} />;
+    case "board":
+      return <Board s={s} dur={dur} />;
+    case "collage":
+      return <Collage s={s} dur={dur} />;
     default:
       return <Title s={s} />;
   }
