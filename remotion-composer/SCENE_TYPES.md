@@ -43,7 +43,7 @@ When you add a new component, append it here and in `src/components/index.ts`.
 
 A separate, data-driven composition (`src/vox/`), **not** an `Explainer` cut type. Render via `video_compose` with `renderer_family: "vox"` and `edit_decisions.vox`, or directly with `npx remotion render src/index.tsx VoxExplainer out.mp4 --props=public/demo-props/vox-explainer.json`. Workflow: `.agents/skills/vox-explainer/SKILL.md`.
 
-Props: `theme` (`"neutral" | "kritlife" | "midnight"` or `{preset?, ...VoxTheme}`), `duration` (s), `scenes[]`, `cues[]` (`{s,e,t,hi?}`), `audio?`, `assetBase?`, `brand? {name, hi?}`, `labels? {illustration?, file?}`, `subtitles?`.
+Props: `theme` (`"neutral" | "kritlife" | "midnight" | "dossier" | "collage"` or `{preset?, ...VoxTheme}`), `duration` (s), `scenes[]`, `cues[]` (`{s,e,t,hi?}`), `audio?`, `assetBase?`, `brand? {name, hi?}`, `labels? {illustration?, file?}`, `subtitles?`.
 
 Every scene has `start` (seconds on the narration master) and `type`. Optional on all scenes: `chapter`, `kicker`, `head` / `hi` (marker-highlighted) / `tail`, `size`, and `at[]` (absolute seconds for staggered reveals).
 
@@ -61,6 +61,8 @@ Every scene has `start` (seconds on the narration master) and `type`. Optional o
 | `chart-pie` | `data[{label,value}]`, `unit` | Donut, first slice = accent (RVE pie-chart) |
 | `typewriter` | `text`, `sub` | Quote typed out with a block cursor (RVE typewriter-subtitle) |
 | `end` | `items`, optional `head`/`hi` (defaults to brand) | Brand lock-up + sign-off lines |
+| `board` | `cards[]` (`note`/`photo`/`stamp` at x,y,w,rot), `links`, `stamp`, `sub`, `host`, `hostSide`, `cards9` | Evidence board: headline on a torn note, pinned evidence, red strings; best with theme `dossier` |
+| `collage` | `head` (giant), `tail`, `hi`, `sub`, `host`, `img`, `items` (icon row), `stamp` | Editorial collage poster with duotone cut-out; best with theme `collage` |
 
 ---
 

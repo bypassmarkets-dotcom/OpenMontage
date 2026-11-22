@@ -1,0 +1,154 @@
+# vox-dossier: paper preset of styles/vox-documentary.yaml (theme_preset: dossier).
+# Scenes: remotion-composer/src/vox (board / collage + every core scene). Workflow: .agents/skills/vox-explainer/SKILL.md
+asset_generation:
+  consistency_anchors:
+  - Torn cream notes with typewriter titles
+  - Red pins + red string
+  - Rubber stamps for verdict words (CLASSIFIED, EXPOSED, BREAKING)
+  diagram_style: thin-line editorial diagram, single accent highlight, serif labels
+  image_negative_prompt: colour, glossy, cartoon, text, watermark
+  image_prompt_prefix: 'black and white documentary photograph, high contrast, film grain, '
+audio:
+  ducking_threshold_db: -4
+  music_mood: sparse pulse or soft piano under narration, no drops
+  music_volume: 0.08
+  sfx_style: paper slides, pen ticks, soft whooshes on scene changes only
+  voice_style: curious, measured narrator; explains rather than sells
+chart_palette:
+- '#B3201E'
+- '#E6DCC6'
+- '#A89A84'
+- '#3A3229'
+color_rules:
+  colorblind_safe: true
+  contrast_validation: true
+  harmony_type: analogous
+identity:
+  best_for: Investigations, exposés, "who is behind X", true-crime-style tech explainers
+  category: custom
+  mood: investigative, tense, tactile
+  name: vox-dossier
+  pace: moderate
+motion:
+  animation_style: spring(damping 18, stiffness 110, mass 0.9) — settles without bounce; marker highlight draws left-to-right
+  entrance: rise 36px + fade, items staggered on narration beats
+  exit: scene cross-fade over 8 frames
+  pacing_rules:
+    max_scene_hold_seconds: 12
+    min_scene_hold_seconds: 2.5
+    stat_card_hold_seconds: 3.0
+    text_card_hold_seconds: 3.0
+    transition_duration_seconds: 0.27
+  transitions:
+  - fade
+  - cut
+quality_rules:
+- Minimum contrast ratio 4.5:1 for all text (use theme.accentInk for accent-coloured text on light themes)
+- One accent colour on screen
+- Prefer real CC-licensed imagery (Openverse) over generated images for documentary evidence
+- Label any illustrative data or quote as illustrative
+renderer:
+  composition: VoxExplainer
+  composition_mode: templated
+  family: vox
+  runtime: remotion
+  scene_types:
+  - title
+  - big
+  - photo
+  - parallax
+  - redact
+  - split
+  - network
+  - list
+  - chart-line
+  - chart-pie
+  - typewriter
+  - end
+  theme_preset: dossier
+  hero_scene: board
+  host:
+    source: Host asset group of the Dark Gold Explainer design system (claude.ai artifact XaAgGkYZmNWnURD5LimVd5); copy, never
+      approximate
+    prepare: tools/enhancement/bg_remove (model u2net_human_seg) -> transparent PNG under the project assets; keep it out
+      of git
+    use: scene.host on board/collage; pick the pose that matches the line (point = call to action, think = question, surprised
+      = reveal)
+stock:
+  allowed_licenses:
+  - cc0
+  - pdm
+  - by
+  - by-sa
+  credit_required_for:
+  - by
+  - by-sa
+  license_type: commercial,modification
+  mcp_tools:
+  - mcp__openverse__openverse_search_images
+  - mcp__openverse__openverse_get_image
+  - mcp__openverse__search_audio
+  preferred_sources:
+  - openverse
+  - wikimedia
+taste_profile:
+  anti_patterns:
+  - Reproducing every spoken sentence as giant on-screen text
+  - Fabricated statistics, quotes, UI or 'evidence' images
+  - A second accent colour or rainbow chart palettes
+  - Random zooms or constant motion that explains nothing
+  - Stock images without an on-screen or end-card credit when the licence is CC BY / BY-SA
+  - Red strings that connect things the narration does not connect
+  - Redaction bars used to imply guilt of a real, identifiable private person
+  design_read: 'Evidence board: the question on a torn note, proof pinned around it, red string drawing the connections the
+    narration makes.'
+  information_density: 6
+  layout_variation: 'Rotate scene families by idea, not by clock: big claim -> evidence (chart/photo/dossier) -> contrast
+    (split) -> system (network) -> takeaway.'
+  motion_intensity: 4
+  palette_discipline: Crushed-black newsprint ground, cream note paper, ONE oxblood red (#B3201E) for strings, pins, stamps
+    and the highlight strip.
+  quality_gates:
+  - Narration is the locked master; every scene start and beat (`at`) comes from verified transcript timestamps.
+  - Every chart has a real, cited source or is labelled ILLUSTRATIVE.
+  - Each image scene carries `credit` (Openverse attribution) unless CC0/PDM.
+  - Hold dense statements long enough to read (>= 2.5 s).
+  - 'Every string is a claim: it must match a sentence in the narration.'
+  - Photos are B&W; only the accent red is saturated.
+  reference_strategy: Render one still per scene family in the chosen theme before sourcing all imagery.
+  visual_variance: 5
+typography:
+  body:
+    font: Kanit
+    weight: 800
+    line_height: 1.2
+  code:
+    font: Special Elite
+    weight: 400
+  headings:
+    font: Anton
+    weight: 400
+    tracking: 0.01em
+  scale_system: perfect_fourth
+  stat_card:
+    font: Anton
+    weight: 400
+    size_multiplier: 3.5
+  weight_matrix:
+    body: 600
+    caption: 500
+    heading: 800
+    title: 800
+visual_language:
+  color_palette:
+    primary:
+    - '#F1E9D8'
+    - '#A89A84'
+    accent:
+    - '#B3201E'
+    background: '#16130F'
+    text: '#F1E9D8'
+    muted: '#A89A84'
+  composition: editorial grid, generous negative space, left-aligned headline column (16:9) or centred stack (9:16), one focal
+    idea per frame
+  texture: crushed newsprint, paper fibre, stains, film grain

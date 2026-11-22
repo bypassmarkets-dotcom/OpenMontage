@@ -67,7 +67,7 @@ export const Brand: React.FC = () => {
   const v = useV();
   if (!brand) return null;
   return (
-    <div style={{ position: "absolute", top: v ? 120 : 48, left: v ? 0 : 70, right: v ? 0 : undefined, display: "flex", justifyContent: v ? "center" : "flex-start", alignItems: "center", gap: 12, fontFamily: T.sans, fontWeight: 700, fontSize: v ? 26 : 20, letterSpacing: 2, color: T.dim }}>
+    <div style={{ position: "absolute", zIndex: 50, top: v ? 120 : 48, left: v ? 0 : 70, right: v ? 0 : undefined, display: "flex", justifyContent: v ? "center" : "flex-start", alignItems: "center", gap: 12, fontFamily: T.sans, fontWeight: 700, fontSize: v ? 26 : 20, letterSpacing: 2, color: T.dim }}>
       <div style={{ width: v ? 14 : 11, height: v ? 14 : 11, background: T.accent, borderRadius: 2, transform: "rotate(45deg)" }} />
       {`${brand.name}${brand.hi ?? ""}`.trim()}
     </div>
@@ -123,7 +123,7 @@ export const Subtitle: React.FC<{ cues: VoxCue[] }> = ({ cues }) => {
   const op = interpolate(local, [0, 4], [0, 1], cl);
   const parts = cue.hi && cue.t.includes(cue.hi) ? cue.t.split(cue.hi) : [cue.t];
   return (
-    <div style={{ position: "absolute", left: 0, right: 0, bottom: v ? 400 : 70, display: "flex", justifyContent: "center", opacity: op }}>
+    <div style={{ position: "absolute", left: 0, right: 0, bottom: v ? 400 : 70, display: "flex", justifyContent: "center", opacity: op, zIndex: 50 }}>
       <div style={{ maxWidth: v ? "86%" : "78%", background: `rgba(${T.shade},0.82)`, border: `1px solid ${T.line}`, borderRadius: 14, padding: v ? "12px 28px 18px" : "8px 26px 14px", fontFamily: T.sans, fontWeight: 600, fontSize: v ? 40 : 34, lineHeight: 1.45, color: T.text, textAlign: "center" }}>
         {parts.length > 1 ? (
           <>

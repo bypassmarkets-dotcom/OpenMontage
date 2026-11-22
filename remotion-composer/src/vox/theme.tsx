@@ -230,6 +230,10 @@ export type VoxScene = {
   cards?: VoxCard[]; // board: evidence pinned around the headline note
   links?: [number, number][]; // board: red strings between cards (-1 = the headline note)
   stamp?: string; // board/collage: rubber-stamp label
+  cards9?: VoxCard[]; // board: explicit 9:16 layout (1080x1920 design px); default re-flows `cards`
+  host?: string; // board/collage: cut-out host figure (transparent PNG) standing in front
+  hostSide?: "left" | "right"; // board 16:9: which side the host stands on (default left)
+  hostTreatment?: "theme" | "natural"; // host follows the theme's photo treatment (default) or stays in colour
 };
 
 /** A pinned item on the evidence board. x/y/w are in 1920x1080 design px (top-left of the card). */

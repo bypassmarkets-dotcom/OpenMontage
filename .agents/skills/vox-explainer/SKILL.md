@@ -52,7 +52,7 @@ Serve images to Remotion one of two ways. Either copy them under `remotion-compo
 
 ## 3. Extra mechanics from React Video Editor (reactvideoeditor MCP)
 
-The kit's 12 scene types cover most explainers. When a beat genuinely needs another mechanic (a gauge, a bar race, a heatmap):
+The kit's 14 scene types cover most explainers. When a beat genuinely needs another mechanic (a gauge, a bar race, a heatmap):
 
 1. `mcp__reactvideoeditor__list_categories`, then `mcp__reactvideoeditor__search_templates {query | category}`.
 2. **Free tier only** (`tier: "free"`). Pro templates are not licensed for vendoring. Show the user the template `page` link.
@@ -65,6 +65,53 @@ The kit's 12 scene types cover most explainers. When a beat genuinely needs anot
 5. Verify with `npx tsc --noEmit` and a still in both aspects (see §5).
 
 Already ported: `chart-line` (line-chart), `chart-pie` (pie-chart), `list` (animated-list), `parallax` (parallax-pan), `typewriter` (typewriter-subtitle).
+
+## 3b. Paper looks: `dossier` and `collage` (and the host)
+
+Two themes turn the kit into the tactile, paper-collage register of popular "Vox-style" explainers:
+
+| preset | look | hero scene | use for |
+|---|---|---|---|
+| `dossier` | crushed newsprint, torn cream notes, **red** pins + string, B&W polaroids, rubber stamps, redaction bars | `board` | investigations, "who is behind X", exposés |
+| `collage` | cream paper, giant black condensed type, **gold** torn strips, duotone cut-out in front of a gold disc, line icons | `collage` | episode openers, one big provocative idea |
+
+Every core scene picks the look up from the theme: condensed display face (Anton → Kanit for Thai), torn-strip highlight, paper/newsprint ground, B&W or duotone photos. Fonts are bundled (`src/fonts`, OFL/Apache), so renders need no network.
+
+**Host first.** These looks are built around a *person* in the frame (reference: silhouette presenter in front of an evidence board; cut-out figure in a poster). Prefer the channel's own host over stock people:
+
+1. The host images live in the user's **Dark Gold Explainer** design system (claude.ai artifact `XaAgGkYZmNWnURD5LimVd5`, asset group *Host*: 23 poses: pointing, thinking, surprised, smiling, standing, side profile, …). Read its `project/README.md` and `project/api/assets/Host.md`; fetch a pose with `read_asset` (the id in Host.md). Copy, never approximate.
+2. Cut it out with the repo tool: `tools/enhancement/bg_remove` (`model: "u2net_human_seg"`) → transparent PNG. The host shots are on a plain grey sweep, so cut-outs are clean.
+3. Save under the project's assets (or `remotion-composer/public/<assetBase>/host/`, which is gitignored). **Never commit host images**: they are a person's likeness.
+4. Set `scene.host` on `board` / `collage`. Pick the pose for the line: *point* = call to action / "you", *think* = the question, *surprised* = the reveal, *stand* = neutral intro. `hostTreatment: "natural"` keeps colour; default follows the theme (B&W on dossier, duotone on collage). On a 16:9 board use `hostSide` and keep cards on the other side.
+
+Follow the design system's 9:16 zones when the reel is vertical (header 4–12 %, content 18–60 %, caption ~69 %); `board` and `collage` already lay out that way in 9:16.
+
+**Ethics on the board.** Redaction bars, "SUSPECT" captions and red strings make claims. Never put a real, identifiable private person (stock photo subjects included) under an accusing caption: use neutral captions ("UNKNOWN", "WITNESS") or the host. Every string must match something the narration actually says.
+
+### `board` data
+
+```json
+{ "start": 0, "type": "board", "kicker": "CASE FILE #07", "head": "WHO", "hi": "TRAINED", "tail": "THE AI?",
+  "sub": "ตามหาคำตอบ", "stamp": "CLASSIFIED", "host": "host/host-think-cut.png", "hostSide": "left",
+  "cards": [
+    { "kind": "note",  "x": 1440, "y": 60,  "w": 360, "rot": 3,  "title": "EVIDENCE", "items": ["DATASETS", "NO CONSENT"] },
+    { "kind": "photo", "x": 1440, "y": 470, "w": 300, "rot": -4, "img": "proto/columns.jpg", "caption": "THE COURTS", "redact": [27, 17, 20, 9] },
+    { "kind": "stamp", "x": 1500, "y": 900, "rot": -7, "title": "BREAKING", "w": 260 }
+  ],
+  "links": [[0, -1], [1, -1], [0, 1]], "at": [1.2, 2.0, 2.8] }
+```
+
+`x/y/w` are 1920×1080 design px (top-left of each card). In 9:16 the cards re-flow into two columns either side of the host (`cards9` overrides with explicit 1080×1920 positions). `links` index into `cards`; `-1` is the headline note. `at[i]` drops card `i` on a narration beat.
+
+### `collage` data
+
+```json
+{ "start": 0, "type": "collage", "kicker": "EP.07 — EXPLAINED", "head": "AI", "tail": "IS A", "hi": "WEAPON?",
+  "sub": "อำนาจที่มองไม่เห็น", "host": "host/host-point-cut.png", "img": "optional-photo-behind.jpg", "stamp": "KLT",
+  "items": ["Intelligence", "Power", "Control", "Impact"] }
+```
+
+`head` is the giant word (keep it ≤ 4 characters at the default `size`), `tail` the small connector on a black strip, `hi` the twist on the accent strip, `items` the icon row (up to 5).
 
 ## 4. Build edit_decisions
 
@@ -96,7 +143,7 @@ Already ported: `chart-line` (line-chart), `chart-pie` (pie-chart), `list` (anim
 }
 ```
 
-Themes: `"neutral"` (paper and amber), `"kritlife"` (charcoal and red, Thai), `"midnight"` (navy and teal), or `{ "preset": "midnight", "accent": "#FF5A1F", "accentInk": "#FF5A1F" }`. 9:16 output comes from a vertical `profile` (e.g. `tiktok`) or `vox.aspect: "9:16"`. The same scene data works for both aspects.
+Themes: `"neutral"` (paper and amber), `"kritlife"` (charcoal and red, Thai), `"midnight"` (navy and teal), `"dossier"` and `"collage"` (§3b), or `{ "preset": "midnight", "accent": "#FF5A1F", "accentInk": "#FF5A1F" }`. 9:16 output comes from a vertical `profile` (e.g. `tiktok`) or `vox.aspect: "9:16"`. The same scene data works for both aspects.
 
 ## 5. Render + review
 
@@ -117,5 +164,6 @@ Review checklist: subtitle never covers a chart or legend; every highlighted phr
 - Compositions: `VoxExplainer` and `VoxExplainerVertical` in `src/Root.tsx`. KRITLIFE preset: `src/kritlife/` (`KritVoxDoc169/916`)
 - Compose: `tools/video/video_compose.py` (`_render_via_vox`, `_build_vox_props`, `_vox_composition_id`)
 - Attribution: `tools/video/stock_sources/attribution.py`
-- Playbooks: `styles/vox-documentary.yaml`, `styles/custom/vox-kritlife.yaml`
+- Playbooks: `styles/vox-documentary.yaml`, `styles/custom/vox-kritlife.yaml`, `styles/custom/vox-dossier.yaml`, `styles/custom/vox-collage.yaml`
+- Paper look: `src/vox/paper.tsx` (torn paper, pins/string, stamps, polaroids, duotone), `src/vox/scenesPaper.tsx` (board, collage), `src/vox/fonts.ts` + `src/fonts/` (bundled fonts)
 - Demo props: `remotion-composer/public/demo-props/vox-explainer.json`
