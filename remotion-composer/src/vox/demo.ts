@@ -1,0 +1,30 @@
+import type { VoxProps } from "./theme";
+
+// Asset-free demo (neutral theme): the Studio defaultProps for VoxExplainer.
+// public/demo-props/vox-explainer.json is the same data as JSON (for --props and the Python tests).
+// After editing this object, regenerate the JSON:
+//   npx esbuild src/vox/demo.ts --format=cjs --platform=node > /tmp/vox-demo.cjs && \
+//   node -e 'console.log(JSON.stringify(require("/tmp/vox-demo.cjs").VOX_DEMO_PROPS, null, 2))' > public/demo-props/vox-explainer.json
+export const VOX_DEMO_PROPS: VoxProps = {
+  theme: "neutral",
+  duration: 36,
+  brand: { name: "OPEN", hi: "MONTAGE" },
+  labels: { illustration: "Illustration" },
+  scenes: [
+    { start: 0, type: "big", chapter: "The question", kicker: "A simple question", head: "Why do cities feel ", hi: "hotter", tail: " every summer?", size: 104 },
+    { start: 5, type: "typewriter", chapter: "The question", kicker: "THE CLAIM", text: "“Cities can be up to 7°C warmer than the countryside around them.”", sub: "— illustrative quote, replace with a sourced one" },
+    { start: 11, type: "chart-line", chapter: "The evidence", kicker: "ILLUSTRATIVE DATA", head: "Hot days per year ", hi: "keep rising", unit: "", data: [{ label: "1990", value: 12 }, { label: "2000", value: 15 }, { label: "2010", value: 19 }, { label: "2020", value: 24 }, { label: "2030", value: 31 }], at: [12, 13, 14, 15, 16.5] },
+    { start: 18, type: "chart-pie", chapter: "The evidence", kicker: "WHERE THE HEAT COMES FROM", head: "Mostly ", hi: "surfaces", data: [{ label: "Dark surfaces", value: 46 }, { label: "Waste heat", value: 24 }, { label: "Lost greenery", value: 18 }, { label: "Other", value: 12 }] },
+    { start: 24, type: "split", chapter: "The fix", kicker: "TWO PATHS", left: { label: "Not this", text: "More air-conditioning" }, right: { label: "But this", text: "Shade, trees, light roofs" }, at: [24.3, 26] },
+    { start: 28.5, type: "list", chapter: "The fix", kicker: "WHAT WORKS", head: "Cooling a ", hi: "street", items: ["Plant street trees", "Paint roofs white", "~Add more asphalt"], at: [29.3, 30.3, 31.3] },
+    { start: 33, type: "end", items: ["Ask", "Check", "Explain"], at: [33.6, 34.2, 34.8] },
+  ],
+  cues: [
+    { s: 0.2, e: 4.8, t: "Why do cities feel hotter every summer?", hi: "hotter" },
+    { s: 5.2, e: 10.6, t: "Researchers call it the urban heat island." },
+    { s: 11.2, e: 17.6, t: "And the number of hot days keeps climbing." },
+    { s: 18.2, e: 23.6, t: "Most of that heat is soaked up by dark surfaces." },
+    { s: 24.2, e: 28.2, t: "The answer isn't more air-conditioning." },
+    { s: 28.7, e: 32.6, t: "It's shade, trees and lighter roofs." },
+  ],
+};

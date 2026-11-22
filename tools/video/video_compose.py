@@ -774,7 +774,94 @@ class VideoCompose(BaseTool):
         "screen-demo": "Explainer",
         "presenter": "TalkingHead",
         "animation-first": "Explainer",
+        # Vox-style documentary explainer kit (remotion-composer/src/vox). Data-driven,
+        # templated: edit_decisions["vox"] carries scenes/cues/theme; see _render_via_vox.
+        "vox": "VoxExplainer",
     }
+
+    VOX_SCENE_TYPES = frozenset({
+        "title", "photo", "redact", "split", "network", "big", "end",
+        "chart-line", "chart-pie", "list", "parallax", "typewriter",
+    })
+    VOX_THEME_PRESETS = frozenset({"neutral", "kritlife", "midnight"})
+
+    @classmethod
+    def _vox_composition_id(cls, profile_name: str | None, vox: dict[str, Any] | None = None) -> str:
+        """VoxExplainer (16:9) or VoxExplainerVertical (9:16), from the media profile
+        or an explicit vox.aspect ("16:9" | "9:16")."""
+        aspect = str((vox or {}).get("aspect") or "").strip()
+        if aspect in ("9:16", "vertical", "portrait"):
+            return "VoxExplainerVertical"
+        if aspect in ("16:9", "landscape", "horizontal"):
+            return "VoxExplainer"
+        if profile_name:
+            try:
+                from lib.media_profiles import get_profile
+                p = get_profile(profile_name)
+                if p.height > p.width:
+                    return "VoxExplainerVertical"
+            except (ImportError, ValueError):
+                pass
+        return "VoxExplainer"
+
+    @classmethod
+    def _build_vox_props(cls, edit_decisions: dict[str, Any]) -> tuple[dict[str, Any] | None, list[str]]:
+        """Validate edit_decisions["vox"] and return (props, errors).
+
+        Props are passed straight to the VoxExplainer composition. Theme presets are
+        resolved on the TypeScript side (src/vox/theme.tsx) so palettes live in one place.
+        """
+        vox = edit_decisions.get("vox")
+        if not isinstance(vox, dict):
+            return None, ["renderer_family='vox' requires an edit_decisions.vox object (scenes, cues, duration, theme)."]
+        errors: list[str] = []
+        scenes = vox.get("scenes")
+        if not isinstance(scenes, list) or not scenes:
+            errors.append("vox.scenes must be a non-empty list.")
+            scenes = []
+        try:
+            duration = float(vox.get("duration") or 0)
+        except (TypeError, ValueError):
+            duration = 0.0
+        if duration <= 0:
+            errors.append("vox.duration (seconds, the narration master length) must be > 0.")
+        prev = -1.0
+        for i, sc in enumerate(scenes):
+            if not isinstance(sc, dict):
+                errors.append(f"vox.scenes[{i}] must be an object.")
+                continue
+            t = sc.get("type")
+            if t not in cls.VOX_SCENE_TYPES:
+                errors.append(f"vox.scenes[{i}].type {t!r} is not a Vox scene type ({sorted(cls.VOX_SCENE_TYPES)}).")
+            try:
+                start = float(sc.get("start"))
+            except (TypeError, ValueError):
+                errors.append(f"vox.scenes[{i}].start must be a number of seconds.")
+                continue
+            if start < prev:
+                errors.append(f"vox.scenes[{i}].start {start} is earlier than the previous scene ({prev}); scenes must be in timeline order.")
+            if duration and start >= duration:
+                errors.append(f"vox.scenes[{i}].start {start} is at/after vox.duration {duration}.")
+            prev = start
+            if t in ("photo", "parallax") and not sc.get("img"):
+                errors.append(f"vox.scenes[{i}] ({t}) needs an img.")
+            if t in ("chart-line", "chart-pie") and not sc.get("data"):
+                errors.append(f"vox.scenes[{i}] ({t}) needs data: [{{label, value}}].")
+        theme = vox.get("theme", "neutral")
+        if isinstance(theme, str) and theme not in cls.VOX_THEME_PRESETS:
+            errors.append(f"vox.theme {theme!r} is not a preset ({sorted(cls.VOX_THEME_PRESETS)}); pass a theme object for custom palettes.")
+        if errors:
+            return None, errors
+        props: dict[str, Any] = {
+            "theme": theme,
+            "scenes": scenes,
+            "cues": vox.get("cues") or [],
+            "duration": duration,
+        }
+        for key in ("audio", "assetBase", "brand", "labels", "subtitles"):
+            if vox.get(key) is not None:
+                props[key] = vox[key]
+        return props, []
 
     @classmethod
     def _get_composition_id(cls, renderer_family: str) -> str:
@@ -976,6 +1063,114 @@ class VideoCompose(BaseTool):
             )
         cmd.append(f"--browser-executable={browser}")
         return str(browser)
+
+    def _render_via_vox(
+        self,
+        inputs: dict[str, Any],
+        edit_decisions: dict[str, Any],
+    ) -> ToolResult:
+        """Render the reusable Vox-style explainer kit (remotion-composer/src/vox).
+
+        Contract — edit_decisions = {
+            "render_runtime": "remotion", "renderer_family": "vox",
+            "composition_mode": "templated",
+            "vox": {
+                "theme": "neutral" | "kritlife" | "midnight" | {preset?, ...overrides},
+                "duration": <narration master length, seconds>,
+                "scenes": [{start, type, ...}],   # see remotion-composer/SCENE_TYPES.md
+                "cues": [{s, e, t, hi?}],         # subtitle cues from the verified transcript
+                "audio": <narration/mix file under assetBase or public_dir>,
+                "assetBase": <folder under public/ for relative img/audio>,
+                "public_dir": <optional project folder used as Remotion's public dir>,
+                "brand": {name, hi?}, "labels": {illustration?, file?},
+                "aspect": "16:9" | "9:16"        # optional; else derived from profile
+            }
+        }
+        """
+        props, errors = self._build_vox_props(edit_decisions)
+        if errors:
+            return ToolResult(success=False, error="Invalid Vox edit_decisions:\n  - " + "\n  - ".join(errors))
+        assert props is not None
+        vox = edit_decisions["vox"]
+
+        if not shutil.which("npx"):
+            return ToolResult(success=False, error="npx not found. Install Node.js to use Remotion rendering.")
+        composer_dir = Path(__file__).resolve().parent.parent.parent / "remotion-composer"
+        if not (composer_dir / "node_modules").exists():
+            return ToolResult(
+                success=False,
+                error=f"remotion-composer node_modules missing at {composer_dir}. Run `cd remotion-composer && npm install`.",
+            )
+
+        profile = inputs.get("profile") or inputs.get("output_profile")
+        comp_id = self._vox_composition_id(profile, vox)
+        output_path = Path(inputs.get("output_path", "renders/output.mp4")).resolve()
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        props_path = output_path.parent / f".vox_props_{output_path.stem}.json"
+        with open(props_path, "w", encoding="utf-8") as f:
+            json.dump(props, f, ensure_ascii=False)
+
+        cmd = [
+            "npx", "remotion", "render",
+            str(composer_dir / "src" / "index.tsx"),
+            comp_id,
+            str(output_path),
+            f"--props={props_path}",
+        ]
+        public_dir = vox.get("public_dir") or inputs.get("public_dir")
+        if public_dir:
+            pd = Path(public_dir).resolve()
+            if not pd.is_dir():
+                return ToolResult(success=False, error=f"vox.public_dir is not a directory: {pd}")
+            cmd.append(f"--public-dir={pd}")
+        try:
+            self._append_remotion_browser_executable(cmd, inputs)
+        except ValueError as e:
+            return ToolResult(success=False, error=str(e))
+        if inputs.get("remotion_concurrency"):
+            cmd.append(f"--concurrency={int(inputs['remotion_concurrency'])}")
+
+        try:
+            self.run_command(cmd, timeout=max(900, int(props["duration"] * 20)), cwd=composer_dir)
+        except Exception as e:
+            return ToolResult(success=False, error=f"Vox Remotion render failed: {e}")
+        if not output_path.exists():
+            return ToolResult(success=False, error=f"Vox render completed but output file missing: {output_path}")
+
+        if inputs.get("audio_path"):
+            mux_result = self._mux_external_audio(output_path, inputs["audio_path"])
+            if not mux_result.success:
+                return mux_result
+
+        final_review = self._run_final_review(
+            output_path=output_path,
+            edit_decisions=edit_decisions,
+            proposal_packet=inputs.get("proposal_packet"),
+            narration_transcript_path=inputs.get("narration_transcript_path"),
+            script_text=inputs.get("script_text"),
+        )
+        uncredited = [
+            i for i, sc in enumerate(props["scenes"])
+            if sc.get("type") in ("photo", "parallax", "redact") and sc.get("img") and not sc.get("credit")
+        ]
+        if uncredited:
+            final_review.setdefault("issues_found", []).append(
+                f"Vox image scenes {uncredited} have no `credit`. CC BY/BY-SA stock (e.g. Openverse) "
+                f"must be attributed on screen or in the end card/description."
+            )
+        return ToolResult(
+            success=True,
+            data={
+                "output": str(output_path),
+                "composition_id": comp_id,
+                "renderer_family": "vox",
+                "composition_mode": edit_decisions.get("composition_mode", "templated"),
+                "props_path": str(props_path),
+                "scene_count": len(props["scenes"]),
+                "final_review": final_review,
+            },
+            artifacts=[str(output_path)],
+        )
 
     def _render_via_atelier(
         self,
@@ -1390,9 +1585,15 @@ class VideoCompose(BaseTool):
             # Derive caption colors from the palette
             theme["captionHighlightColor"] = primary
             # Caption background: semi-transparent version of the bg color
+            # Decide by luminance, not by an allow-list of exact whites: off-white
+            # playbooks (paper/cream) otherwise get a dark bar under dark text.
+            try:
+                from styles.playbook_loader import _relative_luminance
+                light_bg = _relative_luminance(bg) > 0.5
+            except Exception:  # noqa: BLE001 — malformed colour: keep the old rule
+                light_bg = bg.upper() in ("#FFFFFF", "#FAFAFA", "#F9FAFB")
             theme["captionBackgroundColor"] = (
-                f"rgba(255, 255, 255, 0.85)" if bg.upper() in ("#FFFFFF", "#FAFAFA", "#F9FAFB")
-                else f"rgba(15, 23, 42, 0.75)"
+                "rgba(255, 255, 255, 0.85)" if light_bg else "rgba(15, 23, 42, 0.75)"
             )
 
             # Motion style from playbook. `pace` is an identity field in the
@@ -1621,6 +1822,10 @@ class VideoCompose(BaseTool):
                     f"render_runtime must be set at proposal stage."
                 ),
             )
+
+        # --- Vox kit (templated, data-driven) ----------------------------
+        if render_runtime == "remotion" and edit_decisions.get("renderer_family") == "vox":
+            return self._render_via_vox(inputs, edit_decisions)
 
         # --- Atelier (bespoke) mode -------------------------------------
         # Hand-authored, project-local Remotion composition. Deliberately

@@ -1,0 +1,125 @@
+# Vox-style documentary explainer — editorial explainer-documentary grammar
+# (inspired by the genre; no Vox logos, templates or proprietary assets).
+# Renders through the reusable Remotion kit: remotion-composer/src/vox (renderer_family: vox).
+# Workflow + MCP tooling (Openverse stock, reactvideoeditor template ports):
+#   .agents/skills/vox-explainer/SKILL.md
+identity:
+  name: "Vox Documentary"
+  category: custom
+  mood: curious, clear, intelligent, grounded
+  pace: moderate
+  best_for: "Explainers that answer one question with evidence: policy, science, tech, history, 'why does X happen?'"
+
+taste_profile:
+  design_read: "Editorial explainer-documentary: a question, the evidence, one memorable visual, a resolved takeaway."
+  visual_variance: 5
+  motion_intensity: 4
+  information_density: 6
+  palette_discipline: "Neutral documentary base (paper or charcoal) with exactly ONE accent used for the highlight marker, kicker and the story's data series."
+  layout_variation: "Rotate scene families by idea, not by clock: big claim -> evidence (chart/photo/dossier) -> contrast (split) -> system (network) -> takeaway."
+  reference_strategy: "Render one still per scene family in the chosen theme before sourcing all imagery."
+  anti_patterns:
+    - "Reproducing every spoken sentence as giant on-screen text"
+    - "Fabricated statistics, quotes, UI or 'evidence' images"
+    - "A second accent colour or rainbow chart palettes"
+    - "Random zooms or constant motion that explains nothing"
+    - "Stock images without an on-screen or end-card credit when the licence is CC BY / BY-SA"
+  quality_gates:
+    - "Narration is the locked master; every scene start and beat (`at`) comes from verified transcript timestamps."
+    - "Every chart has a real, cited source or is labelled ILLUSTRATIVE."
+    - "Each image scene carries `credit` (Openverse attribution) unless CC0/PDM."
+    - "Hold dense statements long enough to read (>= 2.5 s)."
+
+visual_language:
+  color_palette:
+    primary: ["#1C1B19", "#6E675C"]
+    accent: ["#F2B705"]
+    background: "#F3EFE6"
+    text: "#1C1B19"
+    muted: "#6E675C"
+  composition: editorial grid, generous negative space, left-aligned headline column (16:9) or centred stack (9:16), one focal idea per frame
+  texture: fine 80px grid, paper grain, soft vignette; photos desaturated slightly and graded toward the base
+
+typography:
+  headings:
+    font: "Noto Serif Thai"
+    weight: 800
+    tracking: "-0.01em"
+  body:
+    font: "Noto Sans Thai"
+    weight: 600
+    line_height: 1.45
+  code:
+    font: "IBM Plex Mono"
+    weight: 400
+  stat_card:
+    font: "Noto Serif Thai"
+    weight: 800
+    size_multiplier: 3.0
+  scale_system: "perfect_fourth"
+  weight_matrix:
+    title: 800
+    heading: 800
+    body: 600
+    caption: 500
+
+motion:
+  transitions: [fade, cut]
+  animation_style: "spring(damping 18, stiffness 110, mass 0.9) — settles without bounce; marker highlight draws left-to-right"
+  pacing_rules:
+    min_scene_hold_seconds: 2.5
+    max_scene_hold_seconds: 12
+    text_card_hold_seconds: 3.0
+    stat_card_hold_seconds: 3.0
+    transition_duration_seconds: 0.27
+  entrance: "rise 36px + fade, items staggered on narration beats"
+  exit: "scene cross-fade over 8 frames"
+
+audio:
+  voice_style: "curious, measured narrator; explains rather than sells"
+  music_mood: "sparse pulse or soft piano under narration, no drops"
+  music_volume: 0.08
+  sfx_style: "paper slides, pen ticks, soft whooshes on scene changes only"
+  ducking_threshold_db: -4
+
+asset_generation:
+  image_prompt_prefix: "documentary editorial photograph, natural light, restrained colour, "
+  image_negative_prompt: "text, watermark, logo, neon, glossy 3d render, fake UI, infographic"
+  diagram_style: "thin-line editorial diagram, single accent highlight, serif labels"
+  consistency_anchors:
+    - "One accent colour per video (theme.accent)"
+    - "Serif display headlines with an accent marker underline on the key phrase"
+    - "Paper dossier / redaction motif for 'what the documents say' beats"
+
+quality_rules:
+  - "Minimum contrast ratio 4.5:1 for all text (use theme.accentInk for accent-coloured text on light themes)"
+  - "One accent colour on screen"
+  - "Prefer real CC-licensed imagery (Openverse) over generated images for documentary evidence"
+  - "Label any illustrative data or quote as illustrative"
+
+chart_palette:
+  - "#F2B705"
+  - "#6E675C"
+  - "#D6CEBF"
+  - "#1C1B19"
+
+color_rules:
+  harmony_type: "analogous"
+  contrast_validation: true
+  colorblind_safe: true
+
+# --- consumed by the agent / video_compose, not by the schema ---
+renderer:
+  runtime: remotion
+  family: vox
+  composition: VoxExplainer          # VoxExplainerVertical for 9:16
+  composition_mode: templated
+  theme_preset: neutral              # neutral | kritlife | midnight | {preset, ...overrides}
+  scene_types: [title, big, photo, parallax, redact, split, network, list, chart-line, chart-pie, typewriter, end]
+
+stock:
+  preferred_sources: [openverse, wikimedia]
+  mcp_tools: [mcp__openverse__openverse_search_images, mcp__openverse__openverse_get_image, mcp__openverse__search_audio]
+  license_type: "commercial,modification"
+  allowed_licenses: ["cc0", "pdm", "by", "by-sa"]
+  credit_required_for: ["by", "by-sa"]

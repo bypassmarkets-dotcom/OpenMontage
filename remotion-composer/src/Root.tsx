@@ -16,6 +16,7 @@ import { ProductReveal, ProductRevealProps } from "./components/ProductReveal";
 import { CaptionOverlay, WordCaption } from "./components/CaptionOverlay";
 import { CollageBurst, CollageBurstProps } from "./CollageBurst";
 import { LyricOverlay, LyricOverlayProps, calculateLyricOverlayMetadata } from "./LyricOverlay";
+import { VoxExplainer, calculateVoxMetadata, VOX_DEMO_PROPS, VOX_FPS } from "./vox";
 
 // ---------------------------------------------------------------------------
 // Theme System — prevents every video from looking like dark fintech
@@ -283,6 +284,27 @@ export const Root: React.FC = () => {
           curtainEndSeconds: 3.0,
           clips: [],
         } as CollageBurstProps}
+      />
+      {/* Vox-style documentary explainer kit (src/vox). Render with --props=<vox props JSON>. */}
+      <Composition
+        id="VoxExplainer"
+        component={VoxExplainer}
+        durationInFrames={Math.round(VOX_DEMO_PROPS.duration * VOX_FPS)}
+        fps={VOX_FPS}
+        width={1920}
+        height={1080}
+        defaultProps={VOX_DEMO_PROPS}
+        calculateMetadata={calculateVoxMetadata}
+      />
+      <Composition
+        id="VoxExplainerVertical"
+        component={VoxExplainer}
+        durationInFrames={Math.round(VOX_DEMO_PROPS.duration * VOX_FPS)}
+        fps={VOX_FPS}
+        width={1080}
+        height={1920}
+        defaultProps={VOX_DEMO_PROPS}
+        calculateMetadata={calculateVoxMetadata}
       />
       <Composition
         id="LyricOverlay"

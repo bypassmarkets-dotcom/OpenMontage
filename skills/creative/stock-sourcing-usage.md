@@ -123,5 +123,16 @@ The Edit Director and Compose Director treat stock assets identically to generat
 |----------|---------------|-------------|-------------|
 | Pexels | Yes, free | Not required (appreciated) | Cannot sell unaltered; cannot imply endorsement |
 | Pixabay | Yes, free | Not required | Cannot sell unaltered; cannot create competing stock service |
+| Openverse | Depends on the CC licence: use `commercial,modification` (the adapter default) | **Required for CC BY / BY-SA** | Reject NC/ND. Credit on screen or in the description |
 
 Both are safe for all OpenMontage use cases. No licensing fees, no per-use royalties, no attribution obligations.
+
+## Openverse (CC imagery) — MCP or Python
+
+Openverse federates CC-licensed images (Flickr, Wikimedia Commons, Met, Smithsonian, …). Unlike Pexels/Pixabay, **licences vary per image**, so every pick goes through the licence gate and gets a credit:
+
+- **Agent path:** `mcp__openverse__openverse_search_images` (`license_type: "commercial,modification"`), then `mcp__openverse__openverse_get_image` for the attribution.
+- **Python path:** `get_source("openverse")` from `tools/video/stock_sources` (keyless; 20 req/min, 200/day anonymous).
+- **Both:** `tools/video/stock_sources/attribution.py` → `is_reusable()`, `credit_line()`, `manifest_fields()`.
+
+Full workflow, including the Vox explainer kit's `credit` field: `.agents/skills/vox-explainer/SKILL.md`.

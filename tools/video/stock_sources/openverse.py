@@ -257,6 +257,7 @@ def _result_to_candidate(
         thumbnail_url=str(result.get("thumbnail") or download_url),
         extra={
             "provider": provider,
+            "title": title,
             "attribution": result.get("attribution") or "",
             "license_url": result.get("license_url") or "",
             "detail_url": result.get("detail_url") or "",

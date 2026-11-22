@@ -39,6 +39,31 @@ When you add a new component, append it here and in `src/components/index.ts`.
 
 ---
 
+## Vox explainer kit (`VoxExplainer` / `VoxExplainerVertical`)
+
+A separate, data-driven composition (`src/vox/`), **not** an `Explainer` cut type. Render via `video_compose` with `renderer_family: "vox"` and `edit_decisions.vox`, or directly with `npx remotion render src/index.tsx VoxExplainer out.mp4 --props=public/demo-props/vox-explainer.json`. Workflow: `.agents/skills/vox-explainer/SKILL.md`.
+
+Props: `theme` (`"neutral" | "kritlife" | "midnight"` or `{preset?, ...VoxTheme}`), `duration` (s), `scenes[]`, `cues[]` (`{s,e,t,hi?}`), `audio?`, `assetBase?`, `brand? {name, hi?}`, `labels? {illustration?, file?}`, `subtitles?`.
+
+Every scene has `start` (seconds on the narration master) and `type`. Optional on all scenes: `chapter`, `kicker`, `head` / `hi` (marker-highlighted) / `tail`, `size`, and `at[]` (absolute seconds for staggered reveals).
+
+| `type` | Uses | Notes |
+|---|---|---|
+| `title` | `sub`, `items` | Headline column, optional numbered item cards |
+| `big` | `sub` | Centred statement |
+| `photo` | `img`, `focus`, `items`, `credit` | Full-bleed slow push-in + gradient + "illustration" tag |
+| `parallax` | `img`, `img2`, `direction`, `credit` | Two-layer pan (ported from RVE parallax-pan) |
+| `redact` | `head`, `hi`, `kicker` | Paper dossier, lines black out, one phrase framed |
+| `split` | `left`, `right` `{label,text}` | Contrast boxes (row in 16:9, stacked in 9:16) |
+| `network` | `items`, `hub` | Hub and spokes, connectors draw on beats |
+| `list` | `items` (prefix `~` = struck out) | Checklist (ported from RVE animated-list) |
+| `chart-line` | `data[{label,value}]`, `unit` | Line draws, last value called out (RVE line-chart) |
+| `chart-pie` | `data[{label,value}]`, `unit` | Donut, first slice = accent (RVE pie-chart) |
+| `typewriter` | `text`, `sub` | Quote typed out with a block cursor (RVE typewriter-subtitle) |
+| `end` | `items`, optional `head`/`hi` (defaults to brand) | Brand lock-up + sign-off lines |
+
+---
+
 ## Adding a new scene type
 
 1. Create the React component in `src/components/MyScene.tsx`. Use `interpolate(frame, [inFrame, outFrame], [from, to])` and `spring(...)` for motion. Read `useCurrentFrame()` and `useVideoConfig()`.
