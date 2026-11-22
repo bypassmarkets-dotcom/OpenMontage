@@ -151,3 +151,14 @@ def test_kritlife_v2_storyboard_props_validate():
     props, errors = VideoCompose._build_vox_props(_ed(vox))
     assert errors == [], errors
     assert {s.get("theme") for s in props["scenes"]} == {"dossier", "collage"}
+
+
+def test_case_scene_is_a_vox_type_and_validates_cards():
+    vox = {"theme": "dossier", "duration": 8, "scenes": [
+        {"start": 0, "type": "case", "head": "AI", "cards": [{"kind": "photo", "x": 0, "y": 0}], "at": [2]}]}
+    props, errors = VideoCompose._build_vox_props(_ed(vox))
+    assert props is None and any("needs an img" in e for e in errors)
+    vox["scenes"][0]["cards"][0]["img"] = "a.jpg"
+    vox["scenes"][0]["credit"] = "a by b (CC0)"
+    props, errors = VideoCompose._build_vox_props(_ed(vox))
+    assert errors == [] and props["scenes"][0]["type"] == "case"

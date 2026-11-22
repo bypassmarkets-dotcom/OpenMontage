@@ -4,7 +4,7 @@
   {
    "start": 0.0,
    "theme": "dossier",
-   "type": "board",
+   "type": "case",
    "chapter": "บทนำ",
    "kicker": "CASE FILE 01",
    "head": "เทคโนโลยี",
@@ -44,7 +44,7 @@
     2.2,
     4.3
    ],
-   "host": "vox/host/host-surprised-cut.png"
+   "host": "vox/host/host-surprised.jpg"
   },
   {
    "start": 5.6,
@@ -68,7 +68,7 @@
   {
    "start": 13.58,
    "theme": "dossier",
-   "type": "board",
+   "type": "case",
    "chapter": "บทนำ",
    "kicker": "EVIDENCE",
    "head": "AI",
@@ -160,12 +160,12 @@
     17.3,
     19.2
    ],
-   "host": "vox/host/host-point-cut.png"
+   "host": "vox/host/host-point.jpg"
   },
   {
    "start": 22.56,
    "theme": "dossier",
-   "type": "board",
+   "type": "case",
    "chapter": "บทนำ",
    "kicker": "คำถามที่น่าสนใจกว่า",
    "head": "มนุษย์",
@@ -201,7 +201,7 @@
     25.5,
     27.7
    ],
-   "host": "vox/host/host-think-cut.png"
+   "host": "vox/host/host-think.jpg"
   },
   {
    "start": 31.26,
@@ -545,7 +545,7 @@
   {
    "start": 184.0,
    "theme": "dossier",
-   "type": "board",
+   "type": "case",
    "chapter": "อีกด้านของ AI",
    "kicker": "CASE FILE 02 · อีกด้านของ AI",
    "head": "ไม่ใช่แค่",
@@ -621,7 +621,7 @@
     191.1,
     192.3
    ],
-   "host": "vox/host/host-serious-cut.png"
+   "host": "vox/host/host-serious.jpg"
   },
   {
    "start": 194.44,
@@ -665,7 +665,7 @@
   {
    "start": 218.68,
    "theme": "dossier",
-   "type": "board",
+   "type": "case",
    "chapter": "อีกด้านของ AI",
    "kicker": "เพราะผมเชื่อว่า",
    "head": "ความเข้าใจ",
@@ -702,7 +702,7 @@
     221.5,
     223.8
    ],
-   "host": "vox/host/host-profile-cut.png"
+   "host": "vox/host/host-profile.jpg"
   },
   {
    "start": 226.36,

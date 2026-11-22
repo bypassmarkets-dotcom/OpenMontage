@@ -45,12 +45,12 @@ def place16(cards: list[dict]) -> list[dict]:
 # Each shot: scene props + storyboard-only fields (vo, motion, sfx).
 SHOTS: list[dict] = [
     # ---------------- Ch1 บทนำ — DOSSIER ----------------
-    dict(id="S01", start=0.0, theme=D, type="board", chapter="บทนำ",
+    dict(id="S01", start=0.0, theme=D, type="case", chapter="บทนำ",
          kicker="CASE FILE 01", head="เทคโนโลยี", hi="เร็วกว่า", tail="ที่มนุษย์จะตามทัน", size=150,
          cards=[card("photo", img=P.format("newsprint.webp"), caption="ทุกวันนี้", w=300, rot=-4),
                 card("photo", img=P.format("map.webp"), caption="ยุคแห่งการเปลี่ยนแปลง", w=300, rot=3),
                 card("stamp", title="ตามไม่ทัน", rot=-10)],
-         at=[0.6, 2.2, 4.3], host=H.format("surprised"),
+         at=[0.6, 2.2, 4.3], host="vox/host/host-surprised.jpg",
          vo="ทุกวันนี้ เรากำลังอยู่ในยุคที่เทคโนโลยีเปลี่ยนแปลงเร็วกว่าที่มนุษย์จะตามทัน",
          motion="note pin-drop → 2 clippings pin-drop on beats → stamp slam on “ตามทัน”; host springs up; push-in",
          sfx="paper rustle 0.0 · pin ticks 0.6/2.2 · stamp thud 4.3"),
@@ -59,7 +59,7 @@ SHOTS: list[dict] = [
          right={"label": "วันนี้", "text": "เครื่องมือที่ใคร ๆ ก็เข้าถึงได้"}, at=[5.6, 9.4],
          vo="สิ่งที่เมื่อไม่กี่ปีก่อน เราเคยคิดว่าเป็นเรื่องของอนาคต / วันนี้ กลับกลายเป็นเครื่องมือที่ใครๆก็สามารถเข้าถึงได้",
          motion="left panel rises on 5.6, right on 9.4 with torn highlight", sfx="whoosh 5.6 · pop 9.4"),
-    dict(id="S03", start=13.58, theme=D, type="board", chapter="บทนำ", kicker="EVIDENCE",
+    dict(id="S03", start=13.58, theme=D, type="case", chapter="บทนำ", kicker="EVIDENCE",
          head="AI", hi="ทำได้แล้ว", size=190,
          cards=[card("note", title="01", items=["เขียนบทความ"], w=300, rot=-3),
                 card("note", title="02", items=["สร้างภาพยนตร์"], w=300, rot=2),
@@ -67,15 +67,15 @@ SHOTS: list[dict] = [
                 card("note", title="04", items=["วิเคราะห์ข้อมูล"], w=300, rot=3),
                 card("note", title="05", items=["งานที่เคยใช้คนจำนวนมาก"], w=320, rot=-2)],
          links=[[-1, 0], [-1, 1], [-1, 2], [-1, 3], [-1, 4]],
-         at=[13.9, 15.3, 16.4, 17.3, 19.2], host=H.format("point"),
+         at=[13.9, 15.3, 16.4, 17.3, 19.2], host="vox/host/host-point.jpg",
          vo="ปัญญาประดิษฐ์สามารถเขียนบทความ สร้างภาพยนตร์ แต่งเพลง วิเคราะห์ข้อมูล หรือแม้แต่ช่วยเราทำงานที่ครั้งหนึ่งต้องใช้คนจำนวนมาก",
          motion="each evidence card pins on its word; red string draws note→card 6f after each pin",
          sfx="pin tick ×5 on beats"),
-    dict(id="S04", start=22.56, theme=D, type="board", chapter="บทนำ", kicker="คำถามที่น่าสนใจกว่า",
+    dict(id="S04", start=22.56, theme=D, type="case", chapter="บทนำ", kicker="คำถามที่น่าสนใจกว่า",
          head="มนุษย์", hi="จะสร้างอะไร", tail="ได้บ้าง?", size=150,
          cards=[card("photo", img="vox/host/host-think.jpg", caption="ในวันที่ AI ฉลาดขึ้น", w=300, rot=-3),
                 card("stamp", title="?", rot=8)],
-         links=[[-1, 0]], at=[25.5, 27.7], host=H.format("think"),
+         links=[[-1, 0]], at=[25.5, 27.7], host="vox/host/host-think.jpg",
          vo="แต่มีคำถามหนึ่งที่ผมคิดว่าน่าสนใจกว่า ในวันที่ AI ฉลาดขึ้นทุกวัน มนุษย์เราจะใช้ความสามารถเหล่านี้สร้างอะไรได้บ้าง",
          motion="polaroid pins on 25.5; “?” stamp slams on 27.7", sfx="pin 25.5 · stamp 27.7"),
     dict(id="S05", start=31.26, theme=D, type="typewriter", chapter="บทนำ", kicker="และนี่คือ",
@@ -179,13 +179,13 @@ SHOTS: list[dict] = [
          vo="ผมกำลังทดลองสร้างรูปแบบการทำงานที่ผสมผสานระหว่างมนุษย์กับ AI ให้ AI ช่วยจัดการงานที่ซ้ำซ้อน ขณะที่มนุษย์ยังคงเป็นผู้กำหนดทิศทาง ความหมาย และคุณค่าของสิ่งที่กำลังสร้างขึ้น",
          motion="left 170.7 → right 175.4; ChapterWipe → dossier on 184.0", sfx="pop · paper tear 184"),
     # ---------------- Ch6 อีกด้านของ AI — DOSSIER ----------------
-    dict(id="S25", start=184.0, theme=D, type="board", chapter="อีกด้านของ AI", kicker="CASE FILE 02 · อีกด้านของ AI",
+    dict(id="S25", start=184.0, theme=D, type="case", chapter="อีกด้านของ AI", kicker="CASE FILE 02 · อีกด้านของ AI",
          head="ไม่ใช่แค่", hi="ด้านที่น่าตื่นเต้น", size=130,
          cards=[card("note", title="!", items=["ข้อผิดพลาด"], w=300, rot=-3),
                 card("note", title="!", items=["ข้อจำกัด"], w=300, rot=2),
                 card("note", title="!", items=["ความเสี่ยง"], w=300, rot=-2),
                 card("note", title="?", items=["สิ่งที่เรายังไม่เข้าใจ"], w=320, rot=3)],
-         links=[[-1, 0], [-1, 1], [-1, 2], [-1, 3]], at=[188.8, 190.1, 191.1, 192.3], host=H.format("serious"),
+         links=[[-1, 0], [-1, 1], [-1, 2], [-1, 3]], at=[188.8, 190.1, 191.1, 192.3], host="vox/host/host-serious.jpg",
          vo="และผมคิดว่าการพูดถึง AI ไม่ควรมีแค่ด้านที่น่าตื่นเต้น เราควรพูดถึงข้อผิดพลาด ข้อจำกัด ความเสี่ยง และสิ่งที่เรายังไม่เข้าใจด้วย",
          motion="newsprint ground; 4 cards pin on words; strings draw", sfx="paper tear (wipe) · pin ×4"),
     dict(id="S26", start=194.44, theme=D, type="split", chapter="อีกด้านของ AI", kicker="พื้นที่แห่งนี้",
@@ -201,11 +201,11 @@ SHOTS: list[dict] = [
          head="เปิดใจเรียนรู้", hi="วิธีใหม่", tail=" เสมอ", size=110,
          vo="และถ้ามีวิธีที่ดีกว่า เราก็ควรเปิดใจเรียนรู้วิธีใหม่ๆอยู่เสมอ",
          motion="display type, torn highlight", sfx="—"),
-    dict(id="S29", start=218.68, theme=D, type="board", chapter="อีกด้านของ AI", kicker="เพราะผมเชื่อว่า",
+    dict(id="S29", start=218.68, theme=D, type="case", chapter="อีกด้านของ AI", kicker="เพราะผมเชื่อว่า",
          head="ความเข้าใจ", hi="ที่แท้จริง", size=150,
          cards=[card("note", title="ไม่ใช่", items=["เชื่อทุกอย่างที่เห็น"], w=320, rot=-3),
                 card("stamp", title="กล้าตั้งคำถาม", rot=-8)],
-         links=[[-1, 0]], at=[221.5, 223.8], host=H.format("profile"),
+         links=[[-1, 0]], at=[221.5, 223.8], host="vox/host/host-profile.jpg",
          vo="เพราะผมเชื่อว่า ความเข้าใจที่แท้จริง ไม่ได้เกิดจากการเชื่อทุกอย่างที่เราเห็น แต่มาจากการกล้าตั้งคำถามกับมัน",
          motion="note pins 221.5; stamp slams 223.8; ChapterWipe → collage 226.36", sfx="pin · stamp · paper tear"),
     # ---------------- Ch7 สุดท้ายนี้ — COLLAGE ----------------
@@ -309,18 +309,35 @@ WIPES = [34.94, 184.0, 226.36]
 
 
 def sfx_events() -> dict:
-    """Synth SFX cues for the kritlife-brand-video sfx.py mixer (whoosh/pop/tick/ticks/thump).
+    """SFX cues for mix_v2.py: recorded CC0 samples ("sample") + brand synth ("type").
 
-    paper tear -> long soft whoosh on chapter wipes; pin -> tick; stamp -> thump;
-    list/network/collage beats -> pop; typewriter -> ticks. Gains stay 0.15-0.45 under the voice.
+    case board: typing on the kicker, paper slap on the pop, scanner ("search") as the camera travels
+    to each card, pin tick + pen click as the red circle is drawn; stamps thump.
+    chapter wipes: paper rip. typewriter scene: typing + bell. Other beats: quiet synth pops.
+    Gains stay 0.15-0.55 under the voice.
     """
     ev: list[dict] = []
-    for w in WIPES:
-        ev.append({"t": round(w - 0.35, 2), "type": "whoosh", "gain": 0.42, "d": 0.7})
+    for w in WIPES:  # torn-paper chapter wipe: a real rip under the sweep
+        ev.append({"t": round(w - 0.42, 2), "sample": "paper-rip", "offset": 0.35, "dur": 0.9, "gain": 0.55})
     for s in SHOTS:
         at = s.get("at") or []
         t = s["type"]
-        if t == "board":
+        if t == "case":
+            # mirrors scenesCase.tsx: kicker types (frames 1..), head pops (3f), camera lands on card i at
+            # max(beat, start + (40 + 2i)/30 s) after an 18-frame travel, pen circle at beat + 10f
+            st = s["start"]
+            ev.append({"t": round(st + 0.03, 2), "sample": "typewriter-long", "offset": 1.0, "dur": 0.75, "gain": 0.32})
+            ev.append({"t": round(st + 0.12, 2), "sample": "paper-tear-short", "gain": 0.28})
+            for i, a in enumerate(at):
+                kind = s["cards"][i]["kind"] if i < len(s.get("cards", [])) else "note"
+                land = max(a, st + (40 + 2 * i) / 30)
+                ev.append({"t": round(land - 0.62, 2), "sample": "scanner", "offset": 0.2, "dur": 0.6, "gain": 0.16})
+                if kind == "stamp":
+                    ev.append({"t": round(a + 0.05, 2), "type": "thump", "gain": 0.5})
+                else:
+                    ev.append({"t": round(a + 0.1, 2), "type": "tick", "gain": 0.28})
+                    ev.append({"t": round(a + 10 / 30, 2), "sample": "pen-click", "dur": 0.45, "gain": 0.55})
+        elif t == "board":
             kinds = [c["kind"] for c in s.get("cards", [])]
             for i, a in enumerate(at):
                 if i < len(kinds) and kinds[i] == "stamp":
@@ -331,7 +348,8 @@ def sfx_events() -> dict:
             if len(at) > 1:
                 ev.append({"t": round(at[1] + 0.05, 2), "type": "pop", "gain": 0.22})
         elif t == "typewriter":
-            ev.append({"t": round(s["start"] + 0.3, 2), "type": "ticks", "gain": 0.12, "count": 14, "every": 0.11})
+            ev.append({"t": round(s["start"] + 0.25, 2), "sample": "typewriter-long", "offset": 3.0, "dur": 2.0, "gain": 0.3})
+            ev.append({"t": round(s["start"] + 2.3, 2), "sample": "typewriter-ding", "dur": 0.8, "gain": 0.22})
         elif t in ("list", "network", "collage", "end"):
             quiet = 0.14 if len(at) > 5 else 0.2
             for a in at:

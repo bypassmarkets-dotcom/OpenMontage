@@ -64,6 +64,7 @@ Every scene has `start` (seconds on the narration master) and `type`. Optional o
 | `typewriter` | `text`, `sub` | Quote typed out with a block cursor (RVE typewriter-subtitle) |
 | `end` | `items`, optional `head`/`hi` (defaults to brand) | Brand lock-up + sign-off lines |
 | `board` | `cards[]` (`note`/`photo`/`stamp` at x,y,w,rot), `links`, `stamp`, `sub`, `host`, `hostSide`, `cards9` | Evidence board: headline on a torn note, pinned evidence, red strings; best with theme `dossier` |
+| `case` | `kicker`, `head`, `hi`, `tail`, `cards[]` (positions automatic), `at[]`, `host` (a face photo, not a cut-out) | FBI-style case board with a virtual camera: the headline pops in close-up, then the camera pans to each card on its beat (pen circle + string), then pulls wide. Host face is a ~¼-frame aged photo in screen space; whole scene has an old-paper filter. Best with theme `dossier` |
 | `collage` | `head` (giant), `tail`, `hi`, `sub`, `host`, `img`, `items` (icon row), `stamp` | Editorial collage poster with duotone cut-out; best with theme `collage` |
 
 ---

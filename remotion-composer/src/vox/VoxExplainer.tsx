@@ -7,11 +7,12 @@ import { Big, End, Network, Photo, Redact, Split, Title } from "./scenes";
 import { ChartLine, ChartPie, List, Parallax, Typewriter } from "./scenesRve";
 import { Board, Collage } from "./scenesPaper";
 import { ChapterWipe } from "./paper";
+import { Case } from "./scenesCase";
 import { resolveTheme, useAsset, useVox, VoxProvider, type VoxProps, type VoxScene, type VoxTheme, type VoxThemeInput } from "./theme";
 
 export const VOX_FPS = 30;
 
-const FULL_BLEED = new Set(["photo", "parallax"]);
+const FULL_BLEED = new Set(["photo", "parallax", "case"]);
 
 const renderScene = (s: VoxScene, dur: number) => {
   switch (s.type) {
@@ -41,6 +42,8 @@ const renderScene = (s: VoxScene, dur: number) => {
       return <Board s={s} dur={dur} />;
     case "collage":
       return <Collage s={s} dur={dur} />;
+    case "case":
+      return <Case s={s} dur={dur} />;
     default:
       return <Title s={s} />;
   }

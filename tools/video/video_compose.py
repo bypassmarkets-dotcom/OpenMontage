@@ -782,7 +782,7 @@ class VideoCompose(BaseTool):
     VOX_SCENE_TYPES = frozenset({
         "title", "photo", "redact", "split", "network", "big", "end",
         "chart-line", "chart-pie", "list", "parallax", "typewriter",
-        "board", "collage",
+        "board", "collage", "case",
     })
     VOX_THEME_PRESETS = frozenset({"neutral", "kritlife", "midnight", "dossier", "collage"})
 
@@ -847,7 +847,7 @@ class VideoCompose(BaseTool):
             if duration and start >= duration:
                 errors.append(f"vox.scenes[{i}].start {start} is at/after vox.duration {duration}.")
             prev = start
-            if t == "board":
+            if t in ("board", "case"):
                 for k, card in enumerate(sc.get("cards") or []):
                     if card.get("kind") == "photo" and not card.get("img"):
                         errors.append(f"vox.scenes[{i}].cards[{k}] (photo) needs an img.")
@@ -1164,7 +1164,7 @@ class VideoCompose(BaseTool):
         uncredited = [
             i for i, sc in enumerate(props["scenes"])
             if (sc.get("type") in ("photo", "parallax", "redact", "collage") and sc.get("img")
-                or sc.get("type") == "board" and any(c.get("img") for c in sc.get("cards") or []))
+                or sc.get("type") in ("board", "case") and any(c.get("img") for c in sc.get("cards") or []))
             and not sc.get("credit")
         ]
         if uncredited:

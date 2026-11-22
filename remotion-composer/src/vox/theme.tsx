@@ -200,7 +200,8 @@ export type VoxSceneType =
   | "typewriter"
   // paper presets
   | "board"
-  | "collage";
+  | "collage"
+  | "case"; // FBI-style case board with a virtual camera (scenesCase.tsx)
 
 export type VoxDatum = { label: string; value: number };
 
