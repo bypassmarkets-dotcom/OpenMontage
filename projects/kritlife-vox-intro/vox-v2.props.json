@@ -207,7 +207,7 @@
    "type": "typewriter",
    "chapter": "บทนำ",
    "kicker": "และนี่คือ",
-   "text": "จุดเริ่มต้นของเรื่องราวที่ผมอยากนำมาแบ่งปัน"
+   "text": "จุดเริ่มต้นของเรื่องราว"
   },
   {
    "start": 34.94,
@@ -340,14 +340,13 @@
   {
    "start": 93.96,
    "theme": "collage",
-   "type": "parallax",
+   "type": "collage",
    "chapter": "ความเป็นไปได้",
    "kicker": "จินตนาการ ↔ ความจริง",
    "head": "เส้นแบ่ง",
    "hi": "เล็กลงเรื่อย ๆ",
-   "img": "vox/proto/sungod.jpg",
-   "img2": "vox/proto/street.jpg",
-   "direction": "left"
+   "size": 170,
+   "img": "vox/proto/sungod.jpg"
   },
   {
    "start": 98.82,
