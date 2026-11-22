@@ -8,11 +8,49 @@ import { ChartLine, ChartPie, List, Parallax, Typewriter } from "./scenesRve";
 import { Board, Collage } from "./scenesPaper";
 import { ChapterWipe } from "./paper";
 import { Case } from "./scenesCase";
-import { resolveTheme, useAsset, useVox, VoxProvider, type VoxProps, type VoxScene, type VoxTheme, type VoxThemeInput } from "./theme";
+import { HostTrack, StageBig, StageCollage, StageEnd, StageList, StageNetwork, StageRedact, StageSplit, StageSubtitle, StageTypewriter } from "./scenesStage";
+import { resolveTheme, useAsset, useT, useVox, VoxProvider, type VoxProps, type VoxScene, type VoxTheme, type VoxThemeInput } from "./theme";
 
 export const VOX_FPS = 30;
 
 const FULL_BLEED = new Set(["photo", "parallax", "case"]);
+
+const renderStage = (s: VoxScene, dur: number) => {
+  switch (s.type) {
+    case "case":
+      return <Case s={s} dur={dur} />;
+    case "collage":
+      return <StageCollage s={s} dur={dur} />;
+    case "list":
+    case "title":
+      return s.items ? <StageList s={s} /> : <StageBig s={s} />;
+    case "split":
+      return <StageSplit s={s} />;
+    case "network":
+      return <StageNetwork s={s} />;
+    case "typewriter":
+      return <StageTypewriter s={s} dur={dur} />;
+    case "redact":
+      return <StageRedact s={s} />;
+    case "end":
+      return <StageEnd s={s} />;
+    case "big":
+      return <StageBig s={s} />;
+    default:
+      return null;
+  }
+};
+
+/** Paper "stage" themes get the stage layouts; everything else renders exactly as before. */
+const SceneBody: React.FC<{ s: VoxScene; dur: number }> = ({ s, dur }) => {
+  const T = useT();
+  return (T.stage && renderStage(s, dur)) || renderScene(s, dur);
+};
+
+const Captions: React.FC<{ cues: VoxProps["cues"] }> = ({ cues = [] }) => {
+  const T = useT();
+  return T.stage ? <StageSubtitle cues={cues} /> : <Subtitle cues={cues} />;
+};
 
 const renderScene = (s: VoxScene, dur: number) => {
   switch (s.type) {
@@ -85,11 +123,14 @@ export const VoxExplainer: React.FC<VoxProps> = ({ theme, scenes, cues = [], dur
       if (!spans.length || spans[spans.length - 1].key !== key) spans.push({ from: Math.round(s.start * fps), key, theme: sceneTheme(s) });
     }
   }
+  const ends = sorted.map((s, i) => Math.round((sorted[i + 1]?.start ?? duration) * fps));
+  const hasStage = !!T.stage;
   const brandEnd = sorted.length > 0 ? (sorted[sorted.length - 1].type === "end" ? sorted[sorted.length - 1].start : duration) : 0;
   const chrome = (
     <>
       {sorted.length > 0 && <BrandUntil t={brandEnd} />}
-      {subtitles && <Subtitle cues={cues} />}
+      {mixed || hasStage ? <HostTrack scenes={sorted} ends={ends} /> : null}
+      {subtitles && (mixed || hasStage ? <Captions cues={cues} /> : <Subtitle cues={cues} />)}
       <Grain />
     </>
   );
@@ -110,14 +151,14 @@ export const VoxExplainer: React.FC<VoxProps> = ({ theme, scenes, cues = [], dur
                   <Themed theme={sceneTheme(s)}>
                     <SceneWrap dur={dur}>
                       {!FULL_BLEED.has(s.type) && <GridBg />}
-                      {renderScene(s, dur)}
+                      <SceneBody s={s} dur={dur} />
                       <Chapter label={s.chapter} />
                     </SceneWrap>
                   </Themed>
                 ) : (
                   <SceneWrap dur={dur}>
                     {!FULL_BLEED.has(s.type) && <GridBg />}
-                    {renderScene(s, dur)}
+                    <SceneBody s={s} dur={dur} />
                     <Chapter label={s.chapter} />
                   </SceneWrap>
                 )}

@@ -234,6 +234,26 @@ SHOTS: list[dict] = [
 
 BOARD_ONLY = {"id", "vo", "motion", "sfx"}
 
+# Stage layout: the host is in EVERY shot as a cut-out head-and-shoulders bust (~1/4 of the frame,
+# bottom-right; made by make_busts.py), pose chosen for the line. Case shots get a taped role label.
+POSE = {
+    "S01": "surprised", "S02": "think", "S03": "point", "S04": "think", "S05": "serious",
+    "S06": "wave", "S07": "smile", "S08": "profile", "S09": "think", "S10": "open",
+    "S11": "surprised", "S12": "point", "S13": "profile", "S14": "serious", "S15": "open",
+    "S16": "smile", "S17": "point", "S18": "think", "S19": "point", "S20": "serious",
+    "S21": "open", "S22": "stand", "S23": "smile", "S24": "point", "S25": "serious",
+    "S26": "profile", "S27": "serious", "S28": "open", "S29": "think", "S30": "seated",
+    "S31": "smile", "S32": "wave", "S33": "open", "S34": "smile",
+}
+LABEL = {"S01": "ผู้ตั้งคำถาม", "S03": "ผู้สืบสวน", "S04": "ผู้ตั้งคำถาม", "S25": "ผู้สืบสวน", "S29": "พยาน"}
+for _s in SHOTS:
+    _s["host"] = f"vox/host/host-{POSE[_s['id']]}-bust.png"
+    if _s["id"] in LABEL:
+        _s["hostLabel"] = LABEL[_s["id"]]
+    _s.pop("hostSide", None)
+    _s.pop("hostTreatment", None)
+next(x for x in SHOTS if x["id"] == "S34")["stamp"] = "CASE OPEN"
+
 
 def props() -> dict:
     cues = json.loads((HERE / "cues.json").read_text())
@@ -296,7 +316,7 @@ def storyboard_md() -> str:
             on += f" — {s['left']['label']}: {s['left']['text']} / {s['right']['label']}: {s['right']['text']}"
         if s.get("items"):
             on += " — " + " · ".join(s["items"])
-        host = s.get("host", "").replace("vox/host/host-", "").replace("-cut.png", "") or "–"
+        host = s.get("host", "").replace("vox/host/host-", "").replace("-bust.png", "").replace("-cut.png", "").replace(".jpg", "") or "–"
         beats = f" (beats {', '.join(str(a) for a in s['at'])})" if s.get("at") else ""
         out.append(f"| {s['id']} | {s['start']:.2f}–{end:.2f} | {s['theme']} | {s['type']} | {on} | {host} | {s['motion']}{beats} | {s['sfx']} |")
     out += ["", "## Voice-over by shot", ""]

@@ -44,7 +44,8 @@
     2.2,
     4.3
    ],
-   "host": "vox/host/host-surprised.jpg"
+   "host": "vox/host/host-surprised-bust.png",
+   "hostLabel": "ผู้ตั้งคำถาม"
   },
   {
    "start": 5.6,
@@ -63,7 +64,8 @@
    "at": [
     5.6,
     9.4
-   ]
+   ],
+   "host": "vox/host/host-think-bust.png"
   },
   {
    "start": 13.58,
@@ -160,7 +162,8 @@
     17.3,
     19.2
    ],
-   "host": "vox/host/host-point.jpg"
+   "host": "vox/host/host-point-bust.png",
+   "hostLabel": "ผู้สืบสวน"
   },
   {
    "start": 22.56,
@@ -201,7 +204,8 @@
     25.5,
     27.7
    ],
-   "host": "vox/host/host-think.jpg"
+   "host": "vox/host/host-think-bust.png",
+   "hostLabel": "ผู้ตั้งคำถาม"
   },
   {
    "start": 31.26,
@@ -209,7 +213,8 @@
    "type": "typewriter",
    "chapter": "บทนำ",
    "kicker": "และนี่คือ",
-   "text": "จุดเริ่มต้นของเรื่องราว"
+   "text": "จุดเริ่มต้นของเรื่องราว",
+   "host": "vox/host/host-serious-bust.png"
   },
   {
    "start": 34.94,
@@ -220,7 +225,7 @@
    "head": "KRITLIFE",
    "hi": "TECH",
    "size": 200,
-   "host": "vox/host/host-wave-cut.png"
+   "host": "vox/host/host-wave-bust.png"
   },
   {
    "start": 38.5,
@@ -242,7 +247,8 @@
     41.7,
     42.6,
     44.7
-   ]
+   ],
+   "host": "vox/host/host-smile-bust.png"
   },
   {
    "start": 47.74,
@@ -261,7 +267,8 @@
    "at": [
     47.9,
     50.6
-   ]
+   ],
+   "host": "vox/host/host-profile-bust.png"
   },
   {
    "start": 52.8,
@@ -272,7 +279,7 @@
    "head": "มันทำงาน",
    "hi": "อย่างไร?",
    "size": 170,
-   "host": "vox/host/host-think-cut.png",
+   "host": "vox/host/host-think-bust.png",
    "img": "vox/proto/columns.jpg",
    "items": [
     "ทดลอง",
@@ -303,7 +310,8 @@
     68.9,
     70.0,
     71.0
-   ]
+   ],
+   "host": "vox/host/host-open-bust.png"
   },
   {
    "start": 73.68,
@@ -314,7 +322,7 @@
    "head": "ความเป็นไปได้",
    "hi": "ที่ซ่อนอยู่",
    "size": 130,
-   "host": "vox/host/host-surprised-cut.png",
+   "host": "vox/host/host-surprised-bust.png",
    "stamp": "AI"
   },
   {
@@ -337,7 +345,8 @@
     83.3,
     85.5,
     87.8
-   ]
+   ],
+   "host": "vox/host/host-point-bust.png"
   },
   {
    "start": 93.96,
@@ -348,7 +357,8 @@
    "head": "เส้นแบ่ง",
    "hi": "เล็กลงเรื่อย ๆ",
    "size": 170,
-   "img": "vox/proto/sungod.jpg"
+   "img": "vox/proto/sungod.jpg",
+   "host": "vox/host/host-profile-bust.png"
   },
   {
    "start": 98.82,
@@ -367,7 +377,8 @@
    "at": [
     99.5,
     102.3
-   ]
+   ],
+   "host": "vox/host/host-serious-bust.png"
   },
   {
    "start": 105.4,
@@ -378,7 +389,7 @@
    "head": "เทคโนโลยีที่ดี",
    "hi": "เข้าใจง่าย",
    "size": 120,
-   "host": "vox/host/host-open-cut.png"
+   "host": "vox/host/host-open-bust.png"
   },
   {
    "start": 109.8,
@@ -398,7 +409,8 @@
     109.9,
     111.6,
     113.7
-   ]
+   ],
+   "host": "vox/host/host-smile-bust.png"
   },
   {
    "start": 116.08,
@@ -418,7 +430,8 @@
     116.6,
     118.2,
     119.4
-   ]
+   ],
+   "host": "vox/host/host-point-bust.png"
   },
   {
    "start": 121.38,
@@ -437,7 +450,8 @@
    "at": [
     121.6,
     126.4
-   ]
+   ],
+   "host": "vox/host/host-think-bust.png"
   },
   {
    "start": 129.72,
@@ -448,7 +462,7 @@
    "head": "เข้าใจง่าย",
    "hi": "ไม่ลดทอน",
    "size": 130,
-   "host": "vox/host/host-point-cut.png"
+   "host": "vox/host/host-point-bust.png"
   },
   {
    "start": 134.8,
@@ -468,7 +482,8 @@
     137.6,
     139.9,
     141.6
-   ]
+   ],
+   "host": "vox/host/host-serious-bust.png"
   },
   {
    "start": 144.26,
@@ -498,7 +513,8 @@
     153.6,
     155.2,
     156.2
-   ]
+   ],
+   "host": "vox/host/host-open-bust.png"
   },
   {
    "start": 157.12,
@@ -509,7 +525,8 @@
    "head": "เชื่อมทุกขั้นตอนให้เป็น",
    "hi": "ระบบเดียว",
    "sub": "ไม่ใช่แค่เร็วขึ้น — แต่มีเวลาโฟกัสกับสิ่งที่สำคัญกว่า",
-   "size": 96
+   "size": 96,
+   "host": "vox/host/host-stand-bust.png"
   },
   {
    "start": 166.8,
@@ -520,7 +537,7 @@
    "head": "สร้างสรรค์",
    "hi": "+ คุณภาพ",
    "size": 150,
-   "host": "vox/host/host-smile-cut.png",
+   "host": "vox/host/host-smile-bust.png",
    "stamp": "★"
   },
   {
@@ -540,7 +557,8 @@
    "at": [
     170.7,
     175.4
-   ]
+   ],
+   "host": "vox/host/host-point-bust.png"
   },
   {
    "start": 184.0,
@@ -621,7 +639,8 @@
     191.1,
     192.3
    ],
-   "host": "vox/host/host-serious.jpg"
+   "host": "vox/host/host-serious-bust.png",
+   "hostLabel": "ผู้สืบสวน"
   },
   {
    "start": 194.44,
@@ -640,7 +659,8 @@
    "at": [
     194.6,
     202.1
-   ]
+   ],
+   "host": "vox/host/host-profile-bust.png"
   },
   {
    "start": 207.12,
@@ -649,7 +669,8 @@
    "chapter": "อีกด้านของ AI",
    "kicker": "FILE // ตรงไปตรงมา",
    "head": "ไม่ดีพอ ก็บอกว่า",
-   "hi": "ไม่ดีพอ"
+   "hi": "ไม่ดีพอ",
+   "host": "vox/host/host-serious-bust.png"
   },
   {
    "start": 214.0,
@@ -660,7 +681,8 @@
    "head": "เปิดใจเรียนรู้",
    "hi": "วิธีใหม่",
    "tail": " เสมอ",
-   "size": 110
+   "size": 110,
+   "host": "vox/host/host-open-bust.png"
   },
   {
    "start": 218.68,
@@ -702,7 +724,8 @@
     221.5,
     223.8
    ],
-   "host": "vox/host/host-profile.jpg"
+   "host": "vox/host/host-think-bust.png",
+   "hostLabel": "พยาน"
   },
   {
    "start": 226.36,
@@ -713,7 +736,7 @@
    "head": "เข้าใจโลก",
    "hi": "ที่กำลังเปลี่ยน",
    "size": 140,
-   "host": "vox/host/host-seated-cut.png"
+   "host": "vox/host/host-seated-bust.png"
   },
   {
    "start": 235.0,
@@ -733,7 +756,8 @@
     235.0,
     236.8,
     238.8
-   ]
+   ],
+   "host": "vox/host/host-smile-bust.png"
   },
   {
    "start": 243.52,
@@ -745,7 +769,7 @@
    "hi": "TECH",
    "sub": "เข้าใจเทคโนโลยี มากกว่าแค่รู้จัก",
    "size": 200,
-   "host": "vox/host/host-smile-cut.png"
+   "host": "vox/host/host-wave-bust.png"
   },
   {
    "start": 250.7,
@@ -756,7 +780,8 @@
    "head": "คือสิ่งที่เรา",
    "hi": "ร่วมกันสร้าง",
    "sub": "ตั้งแต่วันนี้",
-   "size": 110
+   "size": 110,
+   "host": "vox/host/host-open-bust.png"
   },
   {
    "start": 258.22,
@@ -772,7 +797,9 @@
     259.48,
     261.2,
     262.62
-   ]
+   ],
+   "host": "vox/host/host-smile-bust.png",
+   "stamp": "CASE OPEN"
   }
  ],
  "cues": [

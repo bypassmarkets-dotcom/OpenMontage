@@ -31,40 +31,40 @@ Every beat lands on the word time from `transcript.json` (`at[]`), so nothing ru
 
 | # | Time | Look | Type | On screen | Host | Motion | SFX |
 |---|---|---|---|---|---|---|---|
-| S01 | 0.00–5.60 | dossier | case | CASE FILE 01 เทคโนโลยี เร็วกว่า ที่มนุษย์จะตามทัน | surprised.jpg | note pin-drop → 2 clippings pin-drop on beats → stamp slam on “ตามทัน”; host springs up; push-in (beats 0.6, 2.2, 4.3) | paper rustle 0.0 · pin ticks 0.6/2.2 · stamp thud 4.3 |
-| S02 | 5.60–13.58 | dossier | split | จากอนาคต สู่ปัจจุบัน — เมื่อไม่กี่ปีก่อน: เรื่องของอนาคต / วันนี้: เครื่องมือที่ใคร ๆ ก็เข้าถึงได้ | – | left panel rises on 5.6, right on 9.4 with torn highlight (beats 5.6, 9.4) | whoosh 5.6 · pop 9.4 |
-| S03 | 13.58–22.56 | dossier | case | EVIDENCE AI ทำได้แล้ว | point.jpg | each evidence card pins on its word; red string draws note→card 6f after each pin (beats 13.9, 15.3, 16.4, 17.3, 19.2) | pin tick ×5 on beats |
-| S04 | 22.56–31.26 | dossier | case | คำถามที่น่าสนใจกว่า มนุษย์ จะสร้างอะไร ได้บ้าง? | think.jpg | polaroid pins on 25.5; “?” stamp slams on 27.7 (beats 25.5, 27.7) | pin 25.5 · stamp 27.7 |
-| S05 | 31.26–34.94 | dossier | typewriter | และนี่คือ จุดเริ่มต้นของเรื่องราว | – | typewriter reveal; torn-paper ChapterWipe → collage centred on 34.94 | type clicks · paper tear 34.9 |
+| S01 | 0.00–5.60 | dossier | case | CASE FILE 01 เทคโนโลยี เร็วกว่า ที่มนุษย์จะตามทัน | surprised | note pin-drop → 2 clippings pin-drop on beats → stamp slam on “ตามทัน”; host springs up; push-in (beats 0.6, 2.2, 4.3) | paper rustle 0.0 · pin ticks 0.6/2.2 · stamp thud 4.3 |
+| S02 | 5.60–13.58 | dossier | split | จากอนาคต สู่ปัจจุบัน — เมื่อไม่กี่ปีก่อน: เรื่องของอนาคต / วันนี้: เครื่องมือที่ใคร ๆ ก็เข้าถึงได้ | think | left panel rises on 5.6, right on 9.4 with torn highlight (beats 5.6, 9.4) | whoosh 5.6 · pop 9.4 |
+| S03 | 13.58–22.56 | dossier | case | EVIDENCE AI ทำได้แล้ว | point | each evidence card pins on its word; red string draws note→card 6f after each pin (beats 13.9, 15.3, 16.4, 17.3, 19.2) | pin tick ×5 on beats |
+| S04 | 22.56–31.26 | dossier | case | คำถามที่น่าสนใจกว่า มนุษย์ จะสร้างอะไร ได้บ้าง? | think | polaroid pins on 25.5; “?” stamp slams on 27.7 (beats 25.5, 27.7) | pin 25.5 · stamp 27.7 |
+| S05 | 31.26–34.94 | dossier | typewriter | และนี่คือ จุดเริ่มต้นของเรื่องราว | serious | typewriter reveal; torn-paper ChapterWipe → collage centred on 34.94 | type clicks · paper tear 34.9 |
 | S06 | 34.94–38.50 | collage | collage | สวัสดีครับ KRITLIFE TECH | wave | type slams in (scale 1.25→1); gold disc spring; host waves up from below | paper tear (wipe) · pop 35.9 |
-| S07 | 38.50–47.74 | collage | list | พื้นที่เล็ก ๆ ที่ผมตั้งใจสร้าง เพื่อ ทดลองเรียนรู้ — พูดคุย · แลกเปลี่ยน · ทดลองเรียนรู้ · เทคโนโลยี · AI · คอนเทนต์ | – | items tick in on each word (beats 40.8, 41.7, 42.6, 44.7) | pop ×4 |
-| S08 | 47.74–52.80 | collage | split | ตัวตนของผม — ไม่ใช่: ผู้เชี่ยวชาญที่รู้ทุกเรื่อง / แต่เป็น: คนที่ชอบตั้งคำถาม | – | left in 47.9, right in 50.6 (beats 47.9, 50.6) | pop 50.6 |
+| S07 | 38.50–47.74 | collage | list | พื้นที่เล็ก ๆ ที่ผมตั้งใจสร้าง เพื่อ ทดลองเรียนรู้ — พูดคุย · แลกเปลี่ยน · ทดลองเรียนรู้ · เทคโนโลยี · AI · คอนเทนต์ | smile | items tick in on each word (beats 40.8, 41.7, 42.6, 44.7) | pop ×4 |
+| S08 | 47.74–52.80 | collage | split | ตัวตนของผม — ไม่ใช่: ผู้เชี่ยวชาญที่รู้ทุกเรื่อง / แต่เป็น: คนที่ชอบตั้งคำถาม | profile | left in 47.9, right in 50.6 (beats 47.9, 50.6) | pop 50.6 |
 | S09 | 52.80–61.50 | collage | collage | ชอบทดลอง · ชอบค้นหา มันทำงาน อย่างไร? — ทดลอง · ค้นหา · ใช้ได้จริง | think | duotone photo tears in behind host; icons on beats (beats 52.9, 54.9, 59.7) | pop ×3 |
-| S10 | 61.50–73.68 | collage | list | การเรียนรู้เทคโนโลยี คือการเปลี่ยน ไม่ใช่แค่ เครื่องมือใหม่ — วิธีคิด · วิธีทำงาน · วิธีสร้างสรรค์ | – | hold on the statement; 3 items land on their words (beats 68.9, 70.0, 71.0) | pop ×3 |
+| S10 | 61.50–73.68 | collage | list | การเรียนรู้เทคโนโลยี คือการเปลี่ยน ไม่ใช่แค่ เครื่องมือใหม่ — วิธีคิด · วิธีทำงาน · วิธีสร้างสรรค์ | open | hold on the statement; 3 items land on their words (beats 68.9, 70.0, 71.0) | pop ×3 |
 | S11 | 73.68–80.84 | collage | collage | ไม่ใช่เพราะเป็นกระแส ความเป็นไปได้ ที่ซ่อนอยู่ | surprised | kicker first; big type slams on 77.1 region | whoosh · pop |
-| S12 | 80.84–93.96 | collage | network | ความเป็นไปได้ สิ่งที่ AI  ทำได้ — ข้อความ → ภาพ · ความคิด → วิดีโอ · เสียงสังเคราะห์ → ประสบการณ์ · AI Agent → งานซับซ้อน | – | hub first, each spoke draws on its phrase (beats 80.9, 83.3, 85.5, 87.8) | pop ×4 |
-| S13 | 93.96–98.82 | collage | collage | จินตนาการ ↔ ความจริง เส้นแบ่ง เล็กลงเรื่อย ๆ | – | duotone photo tears in, slow drift; torn highlight on เล็กลง | low whoosh |
-| S14 | 98.82–105.40 | collage | split | คำถามที่แท้จริง — ไม่ใช่: AI จะทำอะไรได้บ้าง? / แต่คือ: มนุษย์จะเลือกใช้มันอย่างไร? | – | left 99.5 → right 102.3 (beats 99.5, 102.3) | pop 102.3 |
+| S12 | 80.84–93.96 | collage | network | ความเป็นไปได้ สิ่งที่ AI  ทำได้ — ข้อความ → ภาพ · ความคิด → วิดีโอ · เสียงสังเคราะห์ → ประสบการณ์ · AI Agent → งานซับซ้อน | point | hub first, each spoke draws on its phrase (beats 80.9, 83.3, 85.5, 87.8) | pop ×4 |
+| S13 | 93.96–98.82 | collage | collage | จินตนาการ ↔ ความจริง เส้นแบ่ง เล็กลงเรื่อย ๆ | profile | duotone photo tears in, slow drift; torn highlight on เล็กลง | low whoosh |
+| S14 | 98.82–105.40 | collage | split | คำถามที่แท้จริง — ไม่ใช่: AI จะทำอะไรได้บ้าง? / แต่คือ: มนุษย์จะเลือกใช้มันอย่างไร? | serious | left 99.5 → right 102.3 (beats 99.5, 102.3) | pop 102.3 |
 | S15 | 105.40–109.80 | collage | collage | สิ่งที่ผมเชื่อ เทคโนโลยีที่ดี เข้าใจง่าย | open | open-arms host; torn highlight on เข้าใจง่าย | pop |
-| S16 | 109.80–116.08 | collage | list | เราไม่จำเป็นต้อง เริ่มได้ ตั้งแต่วันนี้ — เป็นโปรแกรมเมอร์ · มีอุปกรณ์ราคาแพง · รู้ทุกอย่างตั้งแต่วันแรก | – | items tick in (beats 109.9, 111.6, 113.7) | pop ×3 |
-| S17 | 116.08–121.38 | collage | network | สิ่งสำคัญคือ เริ่มจาก คำถามที่ถูก — เริ่มต้นเรียนรู้ · เข้าใจหลักการ · ตั้งคำถามให้ถูก | – | spokes on beats (beats 116.6, 118.2, 119.4) | pop ×3 |
-| S18 | 121.38–129.72 | collage | split | เครื่องมือที่ทรงพลังที่สุด — ไม่ใช่: ฟังก์ชันมากที่สุด / แต่คือ: ใช้ได้อย่างเหมาะสม | – | left 121.6 → right 126.4 (beats 121.6, 126.4) | pop 126.4 |
+| S16 | 109.80–116.08 | collage | list | เราไม่จำเป็นต้อง เริ่มได้ ตั้งแต่วันนี้ — เป็นโปรแกรมเมอร์ · มีอุปกรณ์ราคาแพง · รู้ทุกอย่างตั้งแต่วันแรก | smile | items tick in (beats 109.9, 111.6, 113.7) | pop ×3 |
+| S17 | 116.08–121.38 | collage | network | สิ่งสำคัญคือ เริ่มจาก คำถามที่ถูก — เริ่มต้นเรียนรู้ · เข้าใจหลักการ · ตั้งคำถามให้ถูก | point | spokes on beats (beats 116.6, 118.2, 119.4) | pop ×3 |
+| S18 | 121.38–129.72 | collage | split | เครื่องมือที่ทรงพลังที่สุด — ไม่ใช่: ฟังก์ชันมากที่สุด / แต่คือ: ใช้ได้อย่างเหมาะสม | think | left 121.6 → right 126.4 (beats 121.6, 126.4) | pop 126.4 |
 | S19 | 129.72–134.80 | collage | collage | สิ่งที่ช่องนี้จะพาไปดู เข้าใจง่าย ไม่ลดทอน | point | point host; highlight on ไม่ลดทอน | pop |
-| S20 | 134.80–144.26 | collage | list | ไม่ใช่แค่บอกว่าดี แต่พาไปดูว่า เครื่องมือนี้ ใช้จริงได้แค่ไหน — มันทำงานอย่างไร · มีข้อจำกัดอะไร · ใช้ในสถานการณ์จริงได้แค่ไหน | – | items on beats (beats 137.6, 139.9, 141.6) | pop ×3 |
-| S21 | 144.26–157.12 | collage | network | โลกของการสร้างสรรค์คอนเทนต์ ทุกขั้นตอน  เชื่อมกัน — คิดไอเดีย · ค้นคว้าข้อมูล · เขียนบท · ถ่ายทำ · สร้างภาพ · ออกแบบเสียง · ตัดต่อ · เผยแพร่ | – | 8 spokes, one per word, fast cadence (beats 148.1, 149.3, 150.6, 151.5, 152.6, 153.6, 155.2, 156.2) | pop ×8 (quiet) |
-| S22 | 157.12–166.80 | collage | big | เป้าหมาย เชื่อมทุกขั้นตอนให้เป็น ระบบเดียว | – | hold; sub fades on 161.7 | — |
+| S20 | 134.80–144.26 | collage | list | ไม่ใช่แค่บอกว่าดี แต่พาไปดูว่า เครื่องมือนี้ ใช้จริงได้แค่ไหน — มันทำงานอย่างไร · มีข้อจำกัดอะไร · ใช้ในสถานการณ์จริงได้แค่ไหน | serious | items on beats (beats 137.6, 139.9, 141.6) | pop ×3 |
+| S21 | 144.26–157.12 | collage | network | โลกของการสร้างสรรค์คอนเทนต์ ทุกขั้นตอน  เชื่อมกัน — คิดไอเดีย · ค้นคว้าข้อมูล · เขียนบท · ถ่ายทำ · สร้างภาพ · ออกแบบเสียง · ตัดต่อ · เผยแพร่ | open | 8 spokes, one per word, fast cadence (beats 148.1, 149.3, 150.6, 151.5, 152.6, 153.6, 155.2, 156.2) | pop ×8 (quiet) |
+| S22 | 157.12–166.80 | collage | big | เป้าหมาย เชื่อมทุกขั้นตอนให้เป็น ระบบเดียว | stand | hold; sub fades on 161.7 | — |
 | S23 | 166.80–170.48 | collage | collage | สิ่งที่สำคัญกว่า สร้างสรรค์ + คุณภาพ | smile | type slam; stamp | stamp thud |
-| S24 | 170.48–184.00 | collage | split | มนุษย์ + AI — AI: จัดการงานที่ซ้ำซ้อน / มนุษย์: กำหนดทิศทาง ความหมาย และคุณค่า | – | left 170.7 → right 175.4; ChapterWipe → dossier on 184.0 (beats 170.7, 175.4) | pop · paper tear 184 |
-| S25 | 184.00–194.44 | dossier | case | CASE FILE 02 · อีกด้านของ AI ไม่ใช่แค่ ด้านที่น่าตื่นเต้น | serious.jpg | newsprint ground; 4 cards pin on words; strings draw (beats 188.8, 190.1, 191.1, 192.3) | paper tear (wipe) · pin ×4 |
-| S26 | 194.44–207.12 | dossier | split | พื้นที่แห่งนี้ — ไม่ใช่แค่: ช่องที่บอกว่าอะไรกำลังมาแรง / แต่เป็น: พื้นที่ตั้งคำถามอย่างตรงไปตรงมา | – | left 194.6 → right 202.1 (beats 194.6, 202.1) | pop 202.1 |
-| S27 | 207.12–214.00 | dossier | redact | FILE // ตรงไปตรงมา ไม่ดีพอ ก็บอกว่า ไม่ดีพอ | – | redaction bars lift to reveal the line | marker squeak |
-| S28 | 214.00–218.68 | dossier | big | ถ้ามีวิธีที่ดีกว่า เปิดใจเรียนรู้ วิธีใหม่  เสมอ | – | display type, torn highlight | — |
-| S29 | 218.68–226.36 | dossier | case | เพราะผมเชื่อว่า ความเข้าใจ ที่แท้จริง | profile.jpg | note pins 221.5; stamp slams 223.8; ChapterWipe → collage 226.36 (beats 221.5, 223.8) | pin · stamp · paper tear |
+| S24 | 170.48–184.00 | collage | split | มนุษย์ + AI — AI: จัดการงานที่ซ้ำซ้อน / มนุษย์: กำหนดทิศทาง ความหมาย และคุณค่า | point | left 170.7 → right 175.4; ChapterWipe → dossier on 184.0 (beats 170.7, 175.4) | pop · paper tear 184 |
+| S25 | 184.00–194.44 | dossier | case | CASE FILE 02 · อีกด้านของ AI ไม่ใช่แค่ ด้านที่น่าตื่นเต้น | serious | newsprint ground; 4 cards pin on words; strings draw (beats 188.8, 190.1, 191.1, 192.3) | paper tear (wipe) · pin ×4 |
+| S26 | 194.44–207.12 | dossier | split | พื้นที่แห่งนี้ — ไม่ใช่แค่: ช่องที่บอกว่าอะไรกำลังมาแรง / แต่เป็น: พื้นที่ตั้งคำถามอย่างตรงไปตรงมา | profile | left 194.6 → right 202.1 (beats 194.6, 202.1) | pop 202.1 |
+| S27 | 207.12–214.00 | dossier | redact | FILE // ตรงไปตรงมา ไม่ดีพอ ก็บอกว่า ไม่ดีพอ | serious | redaction bars lift to reveal the line | marker squeak |
+| S28 | 214.00–218.68 | dossier | big | ถ้ามีวิธีที่ดีกว่า เปิดใจเรียนรู้ วิธีใหม่  เสมอ | open | display type, torn highlight | — |
+| S29 | 218.68–226.36 | dossier | case | เพราะผมเชื่อว่า ความเข้าใจ ที่แท้จริง | think | note pins 221.5; stamp slams 223.8; ChapterWipe → collage 226.36 (beats 221.5, 223.8) | pin · stamp · paper tear |
 | S30 | 226.36–235.00 | collage | collage | สุดท้ายนี้ เข้าใจโลก ที่กำลังเปลี่ยน | seated | calm hold, slow drift | paper tear (wipe) |
-| S31 | 235.00–243.52 | collage | list | ไปพร้อมกัน ค้นหา ความเป็นไปได้ — เรียนรู้สิ่งใหม่ไปพร้อมกัน · ทดลองสิ่งที่ยังไม่เคยทำ · ค้นหาความเป็นไปได้จากเครื่องมือวันนี้ | – | items on beats (beats 235.0, 236.8, 238.8) | pop ×3 |
-| S32 | 243.52–250.70 | collage | collage | ยินดีต้อนรับสู่ KRITLIFE TECH | smile | brand slam on 245.3; sub strip | pop 245.3 |
-| S33 | 250.70–258.22 | collage | big | อนาคต คือสิ่งที่เรา ร่วมกันสร้าง | – | hold; sub on 254.2 | — |
-| S34 | 258.22–263.89 | collage | end |  — Understand Technology · Think Differently · Create the Future | – | end card, 3 taglines on beats (beats 259.48, 261.2, 262.62) | pop ×3 |
+| S31 | 235.00–243.52 | collage | list | ไปพร้อมกัน ค้นหา ความเป็นไปได้ — เรียนรู้สิ่งใหม่ไปพร้อมกัน · ทดลองสิ่งที่ยังไม่เคยทำ · ค้นหาความเป็นไปได้จากเครื่องมือวันนี้ | smile | items on beats (beats 235.0, 236.8, 238.8) | pop ×3 |
+| S32 | 243.52–250.70 | collage | collage | ยินดีต้อนรับสู่ KRITLIFE TECH | wave | brand slam on 245.3; sub strip | pop 245.3 |
+| S33 | 250.70–258.22 | collage | big | อนาคต คือสิ่งที่เรา ร่วมกันสร้าง | open | hold; sub on 254.2 | — |
+| S34 | 258.22–263.89 | collage | end |  — Understand Technology · Think Differently · Create the Future | smile | end card, 3 taglines on beats (beats 259.48, 261.2, 262.62) | pop ×3 |
 
 ## Voice-over by shot
 

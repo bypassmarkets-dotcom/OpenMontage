@@ -20,7 +20,7 @@ import React, { useMemo } from "react";
 import { AbsoluteFill, Easing, Img, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
 import { CreditTag } from "./chrome";
 import { Note, PaperGrain, Pin, PinString, Polaroid, Stamp, TornPaper, TornStrip, hashStr, rng } from "./paper";
-import { cl, useAsset, useBeat, useT, useV, type VoxCard, type VoxScene } from "./theme";
+import { cl, stageZones, useAsset, useBeat, useT, useV, type VoxCard, type VoxScene } from "./theme";
 
 type P = { s: VoxScene; dur: number };
 
@@ -35,7 +35,8 @@ const camAt = (keys: Cam[], f: number): Omit<Cam, "f"> => {
     const a = keys[i - 1];
     const b = keys[i];
     if (f <= b.f) {
-      const travel = Math.min(18, b.f - a.f);
+      // travel at most 16f and always leave >= 15f (0.5 s) of hold on the previous key
+      const travel = Math.max(6, Math.min(16, b.f - a.f - 15));
       const t = interpolate(f, [b.f - travel, b.f], [0, 1], { ...cl, easing: EASE });
       // zoom interpolates in log space so pull-backs feel even
       const z = Math.exp(Math.log(a.z) + (Math.log(b.z) - Math.log(a.z)) * t);
@@ -49,7 +50,7 @@ const boxOf = (c: VoxCard) => {
   const w = c.w ?? (c.kind === "note" ? 340 : 300);
   if (c.kind === "photo") return { w: w + 24, h: Math.round(w * 0.78) + 12 + (c.caption ? 46 : 26) };
   if (c.kind === "note") return { w, h: (c.title ? 84 : 30) + (c.items?.length ?? 0) * 46 + 30 };
-  return { w: 320, h: 110 };
+  return { w: 560, h: 170 };
 };
 
 /** Red ballpoint circle drawn around a card (pen-click moment). */
@@ -191,20 +192,26 @@ export const Case: React.FC<P> = ({ s, dur }) => {
   const delays = cards.map((_, i) => beat(s, i, 40 + i * 30));
   const popEnd = 26;
   // camera keys in board px (x,y = point at the frame centre, z = zoom)
-  const fit = Math.min(W / (BW * 0.92), H / (BH * 0.92));
-  const zNote = Math.min(W / (note.w * 1.08), H / (note.h * 1.25));
-  const zCard = v ? 1.6 : 1.25;
-  // where a card should sit on screen while the camera is on it: upper-right of the frame in 9:16
-  // (host photo is lower-left, caption mid-low), right half in 16:9 (host photo bottom-left)
-  const aim = v ? { x: 0.6, y: 0.3 } : { x: 0.62, y: 0.42 };
-  const keys: Cam[] = [{ f: 0, x: ncx, y: ncy, z: zNote * 1.04 }, { f: popEnd, x: ncx, y: ncy, z: zNote }];
+  // stage themes frame everything in the content zone (big, centred); others use the full frame
+  const zone = T.stage ? stageZones(v).content : { x: 0, y: 0, w: W, h: H };
+  const zc = { x: (zone.x + zone.w / 2) / W, y: (zone.y + zone.h / 2) / H };
+  const at = (px: number, py: number, zz: number): Cam => ({ f: 0, x: px - (zc.x - 0.5) * W / zz, y: py - (zc.y - 0.5) * H / zz, z: zz });
+  const zNote = Math.min(zone.w / (note.w * 1.04), zone.h / (note.h * 1.04));
+  const zCard = T.stage ? Math.min(zone.w * 0.8 / 360, zone.h * 0.62 / 300) : v ? 1.6 : 1.25;
+  const keys: Cam[] = [{ ...at(ncx, ncy, zNote * 1.05), f: 0 }, { ...at(ncx, ncy, zNote), f: popEnd }];
   placed.forEach((p, i) => {
     const land = Math.max(delays[i], popEnd + 14 + i * 2);
-    keys.push({ f: land, x: p.cx - (aim.x - 0.5) * W / zCard, y: p.cy - (aim.y - 0.5) * H / zCard, z: zCard });
+    keys.push({ ...at(p.cx, p.cy, zCard), f: land });
   });
   const lastLand = keys[keys.length - 1].f;
   const wideAt = Math.min(dur - 4, Math.max(lastLand + 36, popEnd + 40));
-  keys.push({ f: wideAt, x: ncx, y: ncy + (v ? 120 : 60), z: fit * 1.18 });
+  // summary: fit the note + all evidence into the zone
+  const xs = [nx, nx + note.w, ...placed.flatMap((p) => [p.x, p.x + p.b.w])];
+  const ys = [ny, ny + note.h, ...placed.flatMap((p) => [p.y, p.y + p.b.h])];
+  const bx = [Math.min(...xs) - 60, Math.max(...xs) + 60];
+  const by = [Math.min(...ys) - 60, Math.max(...ys) + 60];
+  const zWide = Math.min(zone.w / (bx[1] - bx[0]), zone.h / (by[1] - by[0]));
+  keys.push({ ...at((bx[0] + bx[1]) / 2, (by[0] + by[1]) / 2, zWide), f: wideAt });
   // slow drift on the final wide
   const cam = camAt(keys, f);
   const drift = interpolate(f, [wideAt, dur], [1, 1.04], cl);
@@ -267,7 +274,7 @@ export const Case: React.FC<P> = ({ s, dur }) => {
         })}
       </div>
       <AgedPaper seed={seed} />
-      {s.host && <HostFace img={s.host} delay={popEnd - 4} v={v} seed={seed} />}
+      {s.host && !T.stage && <HostFace img={s.host} delay={popEnd - 4} v={v} seed={seed} />}
       <CreditTag credit={s.credit} />
     </AbsoluteFill>
   );

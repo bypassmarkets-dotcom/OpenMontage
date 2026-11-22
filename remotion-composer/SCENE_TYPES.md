@@ -45,6 +45,14 @@ A separate, data-driven composition (`src/vox/`), **not** an `Explainer` cut typ
 
 Props: `theme` (`"neutral" | "kritlife" | "midnight" | "dossier" | "collage"` or `{preset?, ...VoxTheme}`), `duration` (s), `scenes[]`, `cues[]` (`{s,e,t,hi?}`), `audio?`, `assetBase?`, `brand? {name, hi?}`, `labels? {illustration?, file?}`, `subtitles?`.
 
+**Stage layout (dossier / collage):** themes with `stage: true` render every scene through `src/vox/scenesStage.tsx`:
+- The idea is big and centred in a content zone; text is auto-fitted to three type levels.
+- The host is a cut-out head-and-shoulders bust (`host-<pose>-bust.png`, made by `projects/kritlife-vox-intro/make_busts.py`) of about ¼ of the frame in the bottom-right. It is persistent across cuts and pops when the pose changes. `hostLabel` adds a taped role label.
+- Captions are a torn paper strip above the host.
+- Split strikes through a "ไม่ใช่ / not" side with a pen, lists are ticked with a pen, and `end` takes a closing `stamp` (e.g. "CASE OPEN").
+
+Other themes are unchanged.
+
 **Mixing looks by chapter:** set `scene.theme` (preset name or theme object) per scene. Consecutive scenes with the same theme form a chapter; where the look changes, a torn-paper `ChapterWipe` (from `src/vox/paper.tsx`) sweeps over the cut. The wipe is an overlay of ±14 frames around the bound, so it never shifts timing. Brand, captions and grain follow the scene on screen. If no scene sets `theme`, the render is identical to before. Example: `projects/kritlife-vox-intro/build_v2.py` (dossier ↔ collage).
 
 Every scene has `start` (seconds on the narration master) and `type`. Optional on all scenes: `chapter`, `kicker`, `head` / `hi` (marker-highlighted) / `tail`, `size`, and `at[]` (absolute seconds for staggered reveals).

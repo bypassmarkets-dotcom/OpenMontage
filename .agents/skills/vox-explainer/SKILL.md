@@ -88,6 +88,14 @@ Follow the design system's 9:16 zones when the reel is vertical (header 4–12 %
 
 **Case board with a camera (`case`).** Use it for the investigative beats: the headline pops in close-up, the camera travels to each evidence card on its `at[]` word, a red pen circle and a string mark it, and the shot ends wide on the whole board. Give `host` a *face photo* (the plain JPG pose, not the cut-out): it becomes an aged instant photo of about a quarter of the frame. Cards are placed automatically around the note. Sound it with typing on the kicker, a scanner swish as the camera travels, and a pen click on each circle (see `projects/kritlife-vox-intro/build_v2.py` `sfx_events` + `mix_v2.py`; CC0 samples from Openverse/Freesound).
 
+**Stage layout (paper themes).** `dossier` and `collage` lay every scene out as one big, centred idea, never small text off to the side, with the host as a cut-out bust of about ¼ of the frame in the bottom-right corner.
+
+To use it:
+1. Make busts from the cut-outs with `projects/kritlife-vox-intro/make_busts.py`.
+2. Set `host` to the `-bust.png` on every scene, choosing a pose per line.
+
+Captions become torn paper strips. Keep heads to 1–3 key words and let the caption carry the sentence.
+
 **Mix looks by chapter.** A long piece can alternate looks: set `theme` on each scene (for example `"dossier"` for the investigative chapters and `"collage"` for the personal ones). A torn-paper wipe plays at each change of look, and captions and brand follow the look on screen. Keep the changes few, at real chapter turns (the KRITLIFE v2 intro uses three in 4:24), and vary the host pose per line: *wave* = greeting, *open* = a belief, *serious* / *profile* = risks and doubts, *seated* = a calm close.
 
 **Ethics on the board.** Redaction bars, "SUSPECT" captions and red strings make claims. Never put a real, identifiable private person (stock photo subjects included) under an accusing caption: use neutral captions ("UNKNOWN", "WITNESS") or the host. Every string must match something the narration actually says.

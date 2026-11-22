@@ -14,6 +14,7 @@ export type VoxTheme = {
   accent: string; // the ONE accent colour
   accentSoft: string; // translucent accent (glows, soft panels)
   accentInk?: string; // accent used for TEXT (defaults to accent; darker on light themes for contrast)
+  stage?: boolean; // paper "stage" layout: big centred type in a content zone, host bust in a bottom corner, paper-strip captions (scenesStage.tsx)
   onAccent: string; // text drawn on top of solid accent
   paper: string; // redaction dossier sheet
   shade: string; // "r,g,b" used for photo/subtitle overlays (dark on dark themes, light on light)
@@ -120,6 +121,7 @@ export const VOX_DOSSIER: VoxTheme = {
   vignette: 0.7,
   gridOpacity: 0,
   paperFonts: true,
+  stage: true,
   highlight: "torn",
   texture: "newsprint",
   photo: "bw",
@@ -150,6 +152,7 @@ export const VOX_COLLAGE: VoxTheme = {
   vignette: 0.06,
   gridOpacity: 0,
   paperFonts: true,
+  stage: true,
   highlight: "torn",
   texture: "paper",
   photo: "duotone",
@@ -235,6 +238,7 @@ export type VoxScene = {
   host?: string; // board/collage: cut-out host figure (transparent PNG) standing in front
   hostSide?: "left" | "right"; // board 16:9: which side the host stands on (default left)
   hostTreatment?: "theme" | "natural"; // host follows the theme's photo treatment (default) or stays in colour
+  hostLabel?: string; // stage themes: small taped label on the host bust (e.g. "ผู้ตั้งคำถาม")
   theme?: VoxThemeInput; // per-scene look (mix presets by chapter); default = the video theme
 };
 
@@ -288,6 +292,12 @@ export const useT = () => {
 };
 
 export const cl = { extrapolateLeft: "clamp" as const, extrapolateRight: "clamp" as const };
+
+/** Stage layout zones (design px). content = where the big type lives; host = bust box; caption = strip anchor. */
+export const stageZones = (v: boolean) =>
+  v
+    ? { content: { x: 60, y: 190, w: 960, h: 960 }, host: { right: 0, bottom: 0, w: 800, h: 640 }, caption: { left: 60, right: 60, bottom: 650 } }
+    : { content: { x: 90, y: 110, w: 1150, h: 780 }, host: { right: 0, bottom: 0, w: 720, h: 576 }, caption: { left: 70, right: 700, bottom: 46 } };
 
 export const useV = () => {
   const { width, height } = useVideoConfig();
