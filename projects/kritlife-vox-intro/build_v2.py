@@ -29,6 +29,19 @@ def card(kind, **kw):
     return {"kind": kind, "x": 0, "y": 0, **kw}
 
 
+# 16:9 card slots (1920x1080 design px): right of the headline note, clear of the host (left),
+# the brand (top-left) and the caption (bottom). 9:16 ignores x/y and re-flows into its own slots.
+SLOTS_16 = [(1390, 110), (1630, 160), (1400, 450), (1635, 480), (1500, 760)]
+
+
+def place16(cards: list[dict]) -> list[dict]:
+    out = []
+    for i, c in enumerate(cards):
+        x, y = SLOTS_16[i % len(SLOTS_16)]
+        out.append({**c, "x": x, "y": y, "w": min(c.get("w", 240), 240)})
+    return out
+
+
 # Each shot: scene props + storyboard-only fields (vo, motion, sfx).
 SHOTS: list[dict] = [
     # ---------------- Ch1 บทนำ — DOSSIER ----------------
@@ -225,6 +238,9 @@ BOARD_ONLY = {"id", "vo", "motion", "sfx"}
 def props() -> dict:
     cues = json.loads((HERE / "cues.json").read_text())
     scenes = [{k: v for k, v in s.items() if k not in BOARD_ONLY} for s in SHOTS]
+    for sc in scenes:
+        if sc.get("cards"):
+            sc["cards"] = place16(sc["cards"])
     return {
         "theme": "collage",
         "scenes": scenes,
