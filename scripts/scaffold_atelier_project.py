@@ -234,10 +234,10 @@ def main(argv: list[str] | None = None) -> int:
 
     print(f"Scaffolding atelier project '{slug}' (composition_id={comp_id}) under {root}\n")
     proj = scaffold(slug, comp_id, root)
-    print(f"\nDone. Now:")
+    print("\nDone. Now:")
     print(f"  1. Open {proj.relative_to(root)}/art-direction.md and fill it in.")
-    print(f"  2. Read skills/meta/bespoke-composition.md.")
-    print(f"  3. Hand-author Composition.tsx (replace the black placeholder).")
+    print("  2. Read skills/meta/bespoke-composition.md.")
+    print("  3. Hand-author Composition.tsx (replace the black placeholder).")
     print(f"  4. Render — see {proj.relative_to(root)}/README.md.")
     return 0
 

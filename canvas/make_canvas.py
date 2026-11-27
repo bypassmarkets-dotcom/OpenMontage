@@ -1,5 +1,7 @@
 """Study of the Interval — Interval Doctrine, Pl. 24.  Renders PNG + PDF."""
-import math, random, sys
+import math
+import random
+import sys
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
 FONTS = "/root/.claude/skills/synced/fee26923-348a-4920-a6b5-62b91ba00384_c4aba766-37df-4b07-83aa-d082cd1f0cf0/canvas-design/canvas-fonts/"

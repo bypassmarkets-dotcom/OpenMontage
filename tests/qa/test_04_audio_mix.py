@@ -5,7 +5,10 @@ Depends on test_01 and test_03 outputs (TTS + music files).
 If those don't exist, generates minimal test fixtures via ffmpeg.
 """
 
-import sys, os, json, subprocess
+import sys
+import os
+import json
+import subprocess
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 

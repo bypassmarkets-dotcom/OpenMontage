@@ -182,7 +182,8 @@ class FalMedia(BaseTool):
         if inputs.get("image_path"):
             paths.insert(0, inputs["image_path"])
         if paths:
-            import mimetypes, base64
+            import mimetypes
+            import base64
 
             refs = [
                 "data:"

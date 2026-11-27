@@ -1,6 +1,7 @@
 """Interval Doctrine — a book of plates. Renders cover + figs i, iii, iv, v and
 binds them with fig. ii (from make_canvas.py) into one PDF."""
-import math, sys
+import math
+import sys
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
 FONTS = "/root/.claude/skills/synced/fee26923-348a-4920-a6b5-62b91ba00384_c4aba766-37df-4b07-83aa-d082cd1f0cf0/canvas-design/canvas-fonts/"

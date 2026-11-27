@@ -5,7 +5,10 @@ Creates a video from static images with audio and optional subtitles.
 Uses ffmpeg-generated fixtures if prior test outputs don't exist.
 """
 
-import sys, os, json, subprocess
+import sys
+import os
+import json
+import subprocess
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 

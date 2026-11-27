@@ -482,9 +482,9 @@ class GreenScreenProcessor(BaseTool):
                     # build — without it, some Linux builds carry the keyed frame
                     # forward without an alpha plane and overlay draws opaque
                     # green over the background instead of compositing.
-                    f"[1:v]chromakey=color=0x00FF00:similarity=0.3:blend=0.08,"
-                    f"format=yuva420p[fg];"
-                    f"[0:v][fg]overlay=0:0:format=auto,format=yuv420p"
+                    "[1:v]chromakey=color=0x00FF00:similarity=0.3:blend=0.08,"
+                    "format=yuva420p[fg];"
+                    "[0:v][fg]overlay=0:0:format=auto,format=yuv420p"
                 ),
                 "-frames:v", "1",
                 str(out_path),
@@ -512,7 +512,7 @@ class GreenScreenProcessor(BaseTool):
                     cmd_simple = [
                         "ffmpeg", "-y",
                         "-i", str(frame),
-                        "-vf", f"chromakey=color=0x00FF00:similarity=0.3:blend=0.08",
+                        "-vf", "chromakey=color=0x00FF00:similarity=0.3:blend=0.08",
                         str(out_path),
                     ]
                     self.run_command(cmd_simple, timeout=30)

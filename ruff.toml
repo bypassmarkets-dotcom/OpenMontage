@@ -1,0 +1,18 @@
+# Ruff configuration for OpenMontage.
+# Start with the safest rules only: things that are almost always real bugs
+# (syntax errors, undefined names, broken comparisons). Widen gradually.
+target-version = "py310"
+
+# .agents/ and .claude/ hold vendored agent-skill example scripts (many use
+# `from manim import *`), not OpenMontage program code.
+extend-exclude = [".agents", ".claude"]
+
+[lint]
+select = [
+    "E9",   # syntax / IO errors
+    "F63",  # invalid comparisons (e.g. `is` with a literal)
+    "F7",   # syntax errors in statements (break outside loop, etc.)
+    "F82",  # undefined names
+    "F541", # f-string without any placeholders
+    "E401", # multiple imports on one line
+]

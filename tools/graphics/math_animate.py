@@ -358,7 +358,7 @@ class MathAnimate(BaseTool):
             self._cleanup(work_dir)
             return ToolResult(
                 success=False,
-                error=f"Manim render timed out after 300s. Try 'low' or 'preview' quality.",
+                error="Manim render timed out after 300s. Try 'low' or 'preview' quality.",
             )
 
         if proc.returncode != 0:

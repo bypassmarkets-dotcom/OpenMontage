@@ -5,7 +5,10 @@ Tests the VideoStitch tool with both matching and mismatched clips.
 Generates fixtures via ffmpeg — no API keys needed.
 """
 
-import sys, os, json, subprocess
+import sys
+import os
+import json
+import subprocess
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 

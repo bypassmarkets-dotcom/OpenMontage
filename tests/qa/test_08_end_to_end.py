@@ -9,7 +9,11 @@ an actual output video. All other stages use synthetic data.
 No API keys needed -- uses ffmpeg-generated fixtures throughout.
 """
 
-import sys, os, json, subprocess, shutil
+import sys
+import os
+import json
+import subprocess
+import shutil
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -358,7 +362,7 @@ for i, (sid, label, start, end, _) in enumerate(SECTIONS):
     img_path = str(ASSETS_DIR / f"img_{scene_id}.png")
     subprocess.run(
         ["ffmpeg", "-y", "-f", "lavfi", "-i",
-         f"color=c=darkblue:s=1280x720:d=1", "-frames:v", "1", img_path],
+         "color=c=darkblue:s=1280x720:d=1", "-frames:v", "1", img_path],
         capture_output=True, check=True,
     )
     clean_assets.append({
