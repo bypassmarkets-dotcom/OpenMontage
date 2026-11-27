@@ -16,6 +16,7 @@ import { ProductReveal, ProductRevealProps } from "./components/ProductReveal";
 import { CaptionOverlay, WordCaption } from "./components/CaptionOverlay";
 import { CollageBurst, CollageBurstProps } from "./CollageBurst";
 import { LyricOverlay, LyricOverlayProps, calculateLyricOverlayMetadata } from "./LyricOverlay";
+import { KritlifeShowcase, KRITLIFE_SHOWCASE_SECONDS } from "./kritlife/KritlifeShowcase";
 
 // ---------------------------------------------------------------------------
 // Theme System — prevents every video from looking like dark fintech
@@ -331,6 +332,23 @@ export const Root: React.FC = () => {
           fadeOutSeconds: 1.5,
           overlay: true,
         } as EndTagProps}
+      />
+      {/* kritlife · SIGNAL × Vox design system — one code path, two aspects */}
+      <Composition
+        id="KritlifeShowcaseVertical"
+        component={KritlifeShowcase}
+        durationInFrames={Math.round(KRITLIFE_SHOWCASE_SECONDS * 30)}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="KritlifeShowcaseLandscape"
+        component={KritlifeShowcase}
+        durationInFrames={Math.round(KRITLIFE_SHOWCASE_SECONDS * 30)}
+        fps={30}
+        width={1920}
+        height={1080}
       />
     </>
   );

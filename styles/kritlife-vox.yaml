@@ -1,0 +1,120 @@
+identity:
+  name: "kritlife Vox"
+  category: cinematic
+  mood: investigative, warm, curious, honest
+  pace: deliberate
+  best_for: "Thai-first documentary explainers, host-led AI/tech essays, evidence-board investigations, 9:16 drama cuts and 16:9 masters"
+
+taste_profile:
+  design_read: "A printed investigative case file, shot at night, with one strip of orange signal light. Vox-style paper collage on the KRITLIFE SIGNAL system."
+  visual_variance: 6
+  motion_intensity: 5
+  information_density: 5
+  palette_discipline: "Ink #121212 and paper #EEEAE1 only, one accent signal orange #FF5B1F at low area / high intensity, red thread #B3261E reserved for the evidence board. Greys are alpha ramps of paper or ink, never flat grey."
+  layout_variation: "Alternate host-cutout frames, paper-collage frames on a paper ground, cork evidence boards with red thread, and graded B-roll plates with gradient protection."
+  reference_strategy: "Use the bundled host poses, textures and Openverse plates in remotion-composer/src/kritlife/assets before generating anything new."
+  anti_patterns:
+    - "rounded corners anywhere (only pins are round)"
+    - "dissolves or slide transitions"
+    - "emoji, icon sets, drawn illustrations"
+    - "a second accent hue or flat grey"
+    - "invented statistics without a source line"
+  quality_gates:
+    - "Every data or timeline graphic carries a visible source line or the concept-diagram note."
+    - "Every dark full frame ends with grain plus vignette."
+    - "Captions stay above the bottom 380px on 9:16."
+
+visual_language:
+  color_palette:
+    primary: ["#121212", "#EEEAE1"]
+    accent: ["#FF5B1F", "#D9440E"]
+    background: "#121212"
+    text: "#EEEAE1"
+    muted: "#9A978F"
+  composition: "content inside a --pad wall (100px landscape, 76px vertical at 1080), text column-constrained, one highlighter swipe per frame, paper cards rotated 1–3°"
+  texture: "paper.jpg / paper_tex.jpg multiply on paper, cork_tile.jpg on boards, grain.png overlay .09–.24 plus radial vignette on every dark frame, photos graded grayscale(.3) contrast(1.16) brightness(.86)"
+
+typography:
+  headings:
+    font: "IBM Plex Sans Thai"
+    weight: 700
+    tracking: "-0.02em"
+  body:
+    font: "IBM Plex Sans Thai"
+    weight: 400
+    line_height: 1.48
+  code:
+    font: "IBM Plex Mono"
+    weight: 500
+  stat_card:
+    font: "Archivo Black"
+    weight: 400
+    size_multiplier: 3.0
+  scale_system: "perfect_fourth"
+  weight_matrix:
+    title: 700
+    heading: 700
+    body: 400
+    caption: 500
+
+motion:
+  transitions: [cut, wipe]
+  animation_style: "out-expo default (0.6s); in-out-cubic for camera and the orange chapter wipe; out-back only for pins and chips; Rise for spoken words, Focus (blur-to-sharp) for found words; nothing on the same beat"
+  pacing_rules:
+    min_scene_hold_seconds: 2.6
+    max_scene_hold_seconds: 9.5
+    text_card_hold_seconds: 4.0
+    stat_card_hold_seconds: 4.5
+    transition_duration_seconds: 0.5
+  entrance: "mask-rise from 108% (new words) or blur 10px→0 with opacity .13→1 (found words); paper scales 0.9→1 while rotating in"
+  exit: "hard cut, camera relocation, or full-bleed orange panel wipe"
+
+audio:
+  voice_style: "Thai, first person ผม / คุณ, warm and conversational, ends blocks on a question, no hype"
+  music_mood: "low documentary pulse, night-time, sparse piano or synth bed"
+  music_volume: 0.08
+  sfx_style: "paper rustle on card entrances, soft pin tap, thread pull, one orange-wipe whoosh per chapter"
+  ducking_threshold_db: -4
+
+asset_generation:
+  image_prompt_prefix: "investigative documentary still, warm-dark grade, film grain, paper and cork textures, single orange accent light, "
+  image_negative_prompt: "cartoon, illustration, glossy 3D, neon, cool blue grade, rounded UI cards, emoji, clutter"
+  diagram_style: "paper cards pinned to cork, red thread between them, mono exhibit tags, no drawn icons"
+  consistency_anchors:
+    - "Ink and paper only, one orange accent"
+    - "Square corners everywhere except pins"
+    - "Grain and vignette on dark frames"
+    - "Host appears as a paper-outlined cutout"
+
+overlays:
+  stat_card:
+    bg: "#121212"
+    border: "#FF5B1F"
+    radius: 0
+    shadow: "0 18px 30px rgba(0,0,0,.45)"
+  key_term:
+    bg: "#FF5B1F"
+    text: "#121212"
+    radius: 0
+  code_block:
+    bg: "#0B0A09"
+    text: "#EEEAE1"
+    highlight: "#FF5B1F"
+
+quality_rules:
+  - "Minimum contrast ratio 4.5:1 for all text"
+  - "One accent hue only; red thread only on the evidence board"
+  - "Thai for voice, English only for mono chrome and the brand tagline"
+  - "No exclamation marks, no hype adjectives"
+  - "Every graphic that looks like data carries a source or the concept-diagram note"
+
+chart_palette:
+  - "#FF5B1F"
+  - "#EEEAE1"
+  - "#9A978F"
+  - "#D9440E"
+
+color_rules:
+  harmony_type: "complementary"
+  contrast_validation: true
+  colorblind_safe: true
